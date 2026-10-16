@@ -299,23 +299,38 @@ export const apiStaff = {
     staff_id: string;
     full_name: string;
     password: string;
+    email?: string;
     phone?: string;
     role?: 'SALES' | 'SUPER_ADMIN';
   }): Promise<StaffProfile> {
     const cleanStaffId = payload.staff_id.trim().toUpperCase();
+    const cleanEmail = payload.email?.trim().toLowerCase() || `${cleanStaffId.toLowerCase()}.tinyplay@gmail.com`;
 
     if (isSupabaseConfigured() && supabase) {
-      // 1. Try secure database RPC first
+      // 1. Try secure database RPC first (with p_email if supported)
       try {
-        const { data: rpcProfile, error: rpcErr } = await supabase.rpc('admin_create_staff', {
+        let rpcRes = await supabase.rpc('admin_create_staff', {
           p_staff_id: cleanStaffId,
           p_full_name: payload.full_name.trim(),
           p_password: payload.password,
+          p_email: cleanEmail,
           p_role: payload.role || 'SALES',
           p_phone: payload.phone || null,
         });
-        if (!rpcErr && rpcProfile) {
-          const profile = rpcProfile as StaffProfile;
+
+        // Fallback for older RPC signature without p_email
+        if (rpcRes.error && rpcRes.error.message.includes('p_email')) {
+          rpcRes = await supabase.rpc('admin_create_staff', {
+            p_staff_id: cleanStaffId,
+            p_full_name: payload.full_name.trim(),
+            p_password: payload.password,
+            p_role: payload.role || 'SALES',
+            p_phone: payload.phone || null,
+          });
+        }
+
+        if (!rpcRes.error && rpcRes.data) {
+          const profile = rpcRes.data as StaffProfile;
           staffList.push(profile);
           saveStaff();
           if (currentAuthStaff) {
@@ -336,9 +351,8 @@ export const apiStaff = {
         const tempClient = createClient(getSupabaseUrl(), getSupabaseAnonKey(), {
           auth: { persistSession: false, autoRefreshToken: false },
         });
-        const staffEmail = `${cleanStaffId.toLowerCase()}.tinyplay@gmail.com`;
         const { data: authResult, error: authErr } = await tempClient.auth.signUp({
-          email: staffEmail,
+          email: cleanEmail,
           password: payload.password,
           options: {
             data: {
@@ -355,7 +369,7 @@ export const apiStaff = {
             id: authResult.user.id,
             staff_id: cleanStaffId,
             full_name: payload.full_name.trim(),
-            email: staffEmail,
+            email: cleanEmail,
             role: payload.role || 'SALES',
             is_active: true,
             phone: payload.phone || null,
@@ -395,7 +409,7 @@ export const apiStaff = {
       id: generateUUID(),
       staff_id: cleanStaffId,
       full_name: payload.full_name.trim(),
-      email: `${cleanStaffId.toLowerCase()}@staff.tinyplaystudioz.internal`,
+      email: cleanEmail,
       role: payload.role || 'SALES',
       is_active: true,
       phone: payload.phone || null,
@@ -592,10 +606,26 @@ export const apiStaff = {
     return { reassignedLeads, reassignedProjects };
   },
 
+  async sendPasswordResetEmail(email: string): Promise<void> {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      throw new Error('A valid email address is required to dispatch a password reset link.');
+    }
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+        redirectTo: `${window.location.origin}/`,
+      });
+      if (error) throw new Error(error.message);
+      return;
+    }
+    throw new Error('Supabase email service is not connected.');
+  },
+
   async updateStaff(
     userId: string,
     payload: {
       full_name?: string;
+      email?: string;
       role?: 'SALES' | 'SUPER_ADMIN';
       phone?: string;
       is_active?: boolean;
@@ -605,11 +635,14 @@ export const apiStaff = {
       throw new Error('Unauthorized: Only Super Admin can edit staff accounts.');
     }
 
+    const cleanEmail = payload.email?.trim().toLowerCase();
+
     if (isSupabaseConfigured() && supabase && isValidUUID(userId)) {
       const updateData: any = {
         updated_at: new Date().toISOString(),
       };
       if (payload.full_name !== undefined) updateData.full_name = payload.full_name.trim();
+      if (cleanEmail !== undefined) updateData.email = cleanEmail;
       if (payload.role !== undefined) updateData.role = payload.role;
       if (payload.phone !== undefined) updateData.phone = payload.phone?.trim() || null;
       if (payload.is_active !== undefined) updateData.is_active = payload.is_active;
@@ -633,6 +666,7 @@ export const apiStaff = {
     if (!staff) throw new Error('Staff account not found');
 
     if (payload.full_name) staff.full_name = payload.full_name.trim();
+    if (cleanEmail) staff.email = cleanEmail;
     if (payload.role) staff.role = payload.role;
     if (payload.phone !== undefined) staff.phone = payload.phone?.trim() || null;
     if (payload.is_active !== undefined) staff.is_active = payload.is_active;

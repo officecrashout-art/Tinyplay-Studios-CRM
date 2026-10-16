@@ -17,6 +17,7 @@ import {
   ShieldAlert,
   Sparkles,
   Edit3,
+  Mail,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { apiStaff } from '@/services/api';
@@ -32,6 +33,7 @@ export const TeamManagementPage: React.FC = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [newStaffId, setNewStaffId] = useState('');
   const [newFullName, setNewFullName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newRole, setNewRole] = useState<'SALES' | 'SUPER_ADMIN'>('SALES');
@@ -43,6 +45,8 @@ export const TeamManagementPage: React.FC = () => {
   const [updatedPass, setUpdatedPass] = useState('');
   const [passLoading, setPassLoading] = useState(false);
   const [passError, setPassError] = useState<string | null>(null);
+  const [resetEmailSuccess, setResetEmailSuccess] = useState<string | null>(null);
+  const [resetEmailLoading, setResetEmailLoading] = useState(false);
 
   // Reassignment Modal
   const [reassignFrom, setReassignFrom] = useState<StaffProfile | null>(null);
@@ -57,6 +61,7 @@ export const TeamManagementPage: React.FC = () => {
   // Edit Staff Modal
   const [editingStaff, setEditingStaff] = useState<StaffProfile | null>(null);
   const [editFullName, setEditFullName] = useState('');
+  const [editEmail, setEditEmail] = useState('');
   const [editRole, setEditRole] = useState<'SALES' | 'SUPER_ADMIN'>('SALES');
   const [editPhone, setEditPhone] = useState('');
   const [editIsActive, setEditIsActive] = useState(true);
@@ -66,6 +71,7 @@ export const TeamManagementPage: React.FC = () => {
   const openEditModal = (s: StaffProfile) => {
     setEditingStaff(s);
     setEditFullName(s.full_name);
+    setEditEmail(s.email || '');
     setEditRole(s.role);
     setEditPhone(s.phone || '');
     setEditIsActive(s.is_active);
@@ -85,6 +91,7 @@ export const TeamManagementPage: React.FC = () => {
       setEditError(null);
       const updated = await apiStaff.updateStaff(editingStaff.id, {
         full_name: editFullName.trim(),
+        email: editEmail.trim() || undefined,
         role: editRole,
         phone: editPhone.trim() || undefined,
         is_active: editIsActive,
@@ -97,6 +104,20 @@ export const TeamManagementPage: React.FC = () => {
       setEditError(err?.message || 'Failed to update staff member');
     } finally {
       setEditLoading(false);
+    }
+  };
+
+  const handleSendResetEmail = async (email: string) => {
+    try {
+      setResetEmailLoading(true);
+      setPassError(null);
+      setResetEmailSuccess(null);
+      await apiStaff.sendPasswordResetEmail(email);
+      setResetEmailSuccess(`Password reset email sent to ${email}`);
+    } catch (err: any) {
+      setPassError(err?.message || 'Failed to send reset email');
+    } finally {
+      setResetEmailLoading(false);
     }
   };
 
@@ -129,6 +150,7 @@ export const TeamManagementPage: React.FC = () => {
       const newMember = await apiStaff.createStaff({
         staff_id: newStaffId.trim().toUpperCase(),
         full_name: newFullName.trim(),
+        email: newEmail.trim() || undefined,
         password: newPassword,
         phone: newPhone.trim() || undefined,
         role: newRole,
@@ -143,6 +165,7 @@ export const TeamManagementPage: React.FC = () => {
       setIsCreateOpen(false);
       setNewStaffId('');
       setNewFullName('');
+      setNewEmail('');
       setNewPassword('');
       setNewPhone('');
       await loadStaff();
@@ -486,6 +509,23 @@ export const TeamManagementPage: React.FC = () => {
 
               <div>
                 <label className="block text-zinc-300 font-semibold mb-1">
+                  Email Address <span className="text-[#61C9F6]">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="sales.rep@gmail.com"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value.toLowerCase())}
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition font-mono"
+                />
+                <p className="text-[10px] text-zinc-400 mt-1">
+                  Used by Supabase to send official password reset links and account notifications.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-zinc-300 font-semibold mb-1">
                   Initial Password <span className="text-[#61C9F6]">*</span>
                 </label>
                 <input
@@ -558,7 +598,11 @@ export const TeamManagementPage: React.FC = () => {
                 </h3>
               </div>
               <button
-                onClick={() => setPasswordTarget(null)}
+                onClick={() => {
+                  setPasswordTarget(null);
+                  setResetEmailSuccess(null);
+                  setPassError(null);
+                }}
                 className="text-zinc-400 hover:text-white transition"
               >
                 <X className="w-4 h-4" />
@@ -570,6 +614,36 @@ export const TeamManagementPage: React.FC = () => {
                 {passError}
               </div>
             )}
+
+            {resetEmailSuccess && (
+              <div className="p-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{resetEmailSuccess}</span>
+              </div>
+            )}
+
+            {/* Supabase Password Reset Email Dispatch */}
+            <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-zinc-400">Target Email:</span>
+                <span className="text-white font-mono font-bold truncate max-w-[180px]">{passwordTarget.email}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleSendResetEmail(passwordTarget.email)}
+                disabled={resetEmailLoading}
+                className="w-full py-2 px-3 rounded-xl bg-[#61C9F6]/10 hover:bg-[#61C9F6]/20 text-sky-200 hover:text-white border border-[#61C9F6]/30 text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer"
+              >
+                <Mail className="w-3.5 h-3.5 text-[#61C9F6]" />
+                <span>{resetEmailLoading ? 'Dispatching Email...' : 'Send Password Reset Email'}</span>
+              </button>
+            </div>
+
+            <div className="relative flex py-1 items-center">
+              <div className="flex-grow border-t border-white/10"></div>
+              <span className="flex-shrink mx-2 text-[10px] uppercase font-mono text-zinc-500">Or Set Directly</span>
+              <div className="flex-grow border-t border-white/10"></div>
+            </div>
 
             <form onSubmit={handleChangePassword} className="space-y-3.5 text-xs">
               <div>
@@ -721,6 +795,23 @@ export const TeamManagementPage: React.FC = () => {
                   className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
                   placeholder="e.g. Tanvir Hossain"
                 />
+              </div>
+
+              <div>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Email Address <span className="text-rose-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value.toLowerCase())}
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition font-mono"
+                  placeholder="e.g. tanvir@gmail.com"
+                />
+                <p className="text-[10px] text-zinc-400 mt-1">
+                  Password reset links will be sent to this email address.
+                </p>
               </div>
 
               <div>
