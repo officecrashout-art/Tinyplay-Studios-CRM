@@ -129,7 +129,12 @@ export const TeamManagementPage: React.FC = () => {
     try {
       setLoading(true);
       const data = await apiStaff.listStaff();
-      setStaff(data);
+      const sorted = [...data].sort((a, b) => {
+        if (a.role === 'SUPER_ADMIN' && b.role !== 'SUPER_ADMIN') return -1;
+        if (b.role === 'SUPER_ADMIN' && a.role !== 'SUPER_ADMIN') return 1;
+        return a.staff_id.localeCompare(b.staff_id, undefined, { numeric: true });
+      });
+      setStaff(sorted);
     } catch (err) {
       console.error(err);
     } finally {

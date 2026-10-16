@@ -132,6 +132,19 @@ export const apiAuth = {
         }
       } catch {}
 
+      if (!registeredEmail && !isEmailInput) {
+        try {
+          const { data: prof } = await supabase
+            .from('staff_profiles')
+            .select('email')
+            .eq('staff_id', cleanStaffId)
+            .maybeSingle();
+          if (prof?.email) {
+            registeredEmail = prof.email;
+          }
+        } catch {}
+      }
+
       const emailCandidates = Array.from(
         new Set([
           ...(isEmailInput ? [rawInput.toLowerCase()] : []),
@@ -283,7 +296,11 @@ export const apiStaff = {
         if (!error && data) {
           const remoteStaffIds = new Set(data.map((s) => s.staff_id.toUpperCase()));
           const localOnly = staffList.filter((s) => !remoteStaffIds.has(s.staff_id.toUpperCase()));
-          const merged = [...data, ...localOnly];
+          const merged = [...data, ...localOnly].sort((a, b) => {
+            if (a.role === 'SUPER_ADMIN' && b.role !== 'SUPER_ADMIN') return -1;
+            if (b.role === 'SUPER_ADMIN' && a.role !== 'SUPER_ADMIN') return 1;
+            return a.staff_id.localeCompare(b.staff_id, undefined, { numeric: true });
+          });
           staffList = merged;
           saveStaff();
           return merged;
@@ -292,7 +309,11 @@ export const apiStaff = {
         console.warn('Failed to query remote staff_profiles:', err);
       }
     }
-    return [...staffList];
+    return [...staffList].sort((a, b) => {
+      if (a.role === 'SUPER_ADMIN' && b.role !== 'SUPER_ADMIN') return -1;
+      if (b.role === 'SUPER_ADMIN' && a.role !== 'SUPER_ADMIN') return 1;
+      return a.staff_id.localeCompare(b.staff_id, undefined, { numeric: true });
+    });
   },
 
   async createStaff(payload: {
