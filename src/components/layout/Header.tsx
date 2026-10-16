@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import {
   Bell,
+  Search,
   Plus,
+  AlertTriangle,
   Clock,
-  Menu,
-  ChevronRight,
   Sparkles,
+  ExternalLink,
+  Menu,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { isSupabaseConfigured } from '@/lib/supabase';
@@ -38,49 +40,42 @@ export const Header: React.FC<HeaderProps> = ({
   const totalAlerts = overdue.length + dueToday.length;
 
   return (
-    <header className="h-16 bg-[#121821]/75 backdrop-blur-2xl border-b border-white/[0.08] px-4 sm:px-6 flex items-center justify-between sticky top-0 z-20 select-none">
-      {/* Specular hairline top reflection */}
+    <header className="h-16 bg-[#080D18]/80 backdrop-blur-2xl border-b border-white/[0.08] px-4 sm:px-6 flex items-center justify-between sticky top-0 z-20">
+      {/* Subtle top specular glass highlight */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
 
       {/* Left: Mobile Toggle, Mobile Logo & Page Title */}
-      <div className="flex items-center gap-3 min-w-0">
+      <div className="flex items-center gap-3">
         <button
           onClick={onToggleMobileMenu}
-          aria-label="Toggle navigation menu"
-          className="lg:hidden min-w-[44px] min-h-[44px] p-2.5 text-[#A3ADBA] hover:text-[#F5F7FA] hover:bg-white/[0.06] rounded-xl cursor-pointer transition border border-transparent hover:border-white/10 flex items-center justify-center shrink-0"
+          className="lg:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/[0.06] rounded-xl cursor-pointer transition border border-transparent hover:border-white/10"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-0.5 border border-white/20 lg:hidden shadow-sm shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center p-0.5 border border-[#61C9F6]/40 lg:hidden shadow-md shadow-[#61C9F6]/20 shrink-0">
           <img src="/logo.png" alt="TinyPlay" className="w-full h-full object-contain rounded-lg" />
         </div>
 
-        <div className="min-w-0">
-          <h2 className="text-sm sm:text-base font-semibold text-[#F5F7FA] leading-tight truncate">
+        <div>
+          <h2 className="text-base font-semibold text-white leading-tight">
             {title || 'Dashboard'}
           </h2>
-          {subtitle && (
-            <p className="text-[11px] text-[#A3ADBA] truncate hidden sm:block mt-0.5">
-              {subtitle}
-            </p>
-          )}
+          {subtitle && <p className="text-xs text-zinc-400 mt-0.5">{subtitle}</p>}
         </div>
       </div>
 
       {/* Right Action Bar */}
-      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* Backend Connectivity Indicator */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.035] border border-white/[0.08] text-xs">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md text-xs shadow-inner">
           <span
             className={`w-2 h-2 rounded-full ${
-              isSupabaseConfigured()
-                ? 'bg-[#34D399] shadow-[0_0_8px_rgba(52,211,153,0.5)]'
-                : 'bg-[#7DD3FC] shadow-[0_0_8px_rgba(125,211,252,0.5)]'
+              isSupabaseConfigured() ? 'bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]' : 'bg-[#61C9F6] shadow-[0_0_8px_#61C9F6]'
             }`}
           />
-          <span className="text-[11px] font-mono text-[#A3ADBA]">
-            {isSupabaseConfigured() ? 'Supabase Live' : 'Internal Engine'}
+          <span className="text-[11px] font-mono text-zinc-300">
+            {isSupabaseConfigured() ? 'Supabase Live' : 'Internal Secure Engine'}
           </span>
         </div>
 
@@ -88,112 +83,100 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            aria-label="View notifications"
-            className="min-w-[40px] min-h-[40px] p-2 text-[#A3ADBA] hover:text-[#7DD3FC] hover:bg-white/[0.06] rounded-xl relative transition-all border border-transparent hover:border-white/10 cursor-pointer flex items-center justify-center"
+            className="p-2 text-zinc-400 hover:text-[#61C9F6] hover:bg-white/[0.06] rounded-xl relative transition-all border border-transparent hover:border-white/10 cursor-pointer"
             title="Follow-up Reminders"
           >
             <Bell className="w-4 h-4" />
             {totalAlerts > 0 && (
-              <span className="absolute top-1 right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#FB7185] text-[10px] font-bold text-white flex items-center justify-center border-2 border-[#121821] font-mono shadow-sm">
+              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-600 text-[10px] font-bold text-white flex items-center justify-center border-2 border-[#080D18] animate-pulse shadow-md shadow-rose-900/50">
                 {totalAlerts}
               </span>
             )}
           </button>
 
-          {/* Notifications Glass Dropdown (Level 3 Floating Glass) */}
+          {/* Notifications Glass Dropdown */}
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 sm:w-88 glass-floating p-4 z-50 animate-in fade-in slide-in-from-top-2">
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-3">
-                <div className="flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-[#7DD3FC]" />
-                  <span className="text-xs font-semibold text-[#F5F7FA]">Follow-up Alerts</span>
-                </div>
-                <span className="text-[11px] font-mono text-[#A3ADBA]">
-                  {totalAlerts} active
+            <div className="absolute right-0 mt-2 w-80 bg-[#0A1020]/95 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.85)] p-3.5 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+                <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-[#61C9F6]" /> Reminders & Follow-ups
                 </span>
-              </div>
-
-              <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-                {totalAlerts === 0 ? (
-                  <div className="py-6 text-center text-xs text-[#A3ADBA]">
-                    No overdue or pending follow-ups for today.
-                  </div>
-                ) : (
-                  <>
-                    {overdue.map((f) => (
-                      <div
-                        key={f.id}
-                        onClick={() => {
-                          setShowNotifications(false);
-                          navigate('/follow-ups');
-                        }}
-                        className="p-2.5 rounded-xl bg-[#FB7185]/[0.08] border border-[#FB7185]/20 hover:bg-[#FB7185]/[0.14] transition cursor-pointer"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-[#FECDD3] truncate">
-                            {f.customer_name}
-                          </span>
-                          <span className="text-[10px] font-mono font-bold text-[#FB7185] uppercase">
-                            Overdue
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-[#A3ADBA] truncate mt-0.5">
-                          {f.reason || 'Scheduled customer follow-up call'}
-                        </p>
-                      </div>
-                    ))}
-
-                    {dueToday.map((f) => (
-                      <div
-                        key={f.id}
-                        onClick={() => {
-                          setShowNotifications(false);
-                          navigate('/follow-ups');
-                        }}
-                        className="p-2.5 rounded-xl bg-[#FBBF24]/[0.08] border border-[#FBBF24]/20 hover:bg-[#FBBF24]/[0.14] transition cursor-pointer"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-[#FDE68A] truncate">
-                            {f.customer_name}
-                          </span>
-                          <span className="text-[10px] font-mono font-bold text-[#FBBF24] uppercase">
-                            Due Today
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-[#A3ADBA] truncate mt-0.5">
-                          {f.reason || 'Scheduled customer check-in'}
-                        </p>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-
-              <div className="pt-3 border-t border-white/[0.08] mt-3 flex justify-end">
                 <button
                   onClick={() => {
                     setShowNotifications(false);
                     navigate('/follow-ups');
                   }}
-                  className="text-xs text-[#7DD3FC] hover:text-[#BAE6FD] font-medium flex items-center gap-1 transition"
+                  className="text-[11px] text-[#61C9F6] hover:text-[#93E0FD] flex items-center gap-1 cursor-pointer font-semibold"
                 >
-                  <span>Open Follow-ups</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  View All <ExternalLink className="w-3 h-3" />
                 </button>
               </div>
+
+              {totalAlerts === 0 ? (
+                <div className="py-6 text-center text-zinc-400 text-xs">
+                  All scheduled follow-ups are up to date! 🎉
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                  {overdue.map((fu) => (
+                    <div
+                      key={fu.id}
+                      onClick={() => {
+                        setShowNotifications(false);
+                        navigate('/follow-ups');
+                      }}
+                      className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 hover:border-rose-400/50 transition cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-rose-300 flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" /> Overdue
+                        </span>
+                        <span className="text-[10px] text-zinc-400 font-mono">
+                          {fu.scheduled_at.split('T')[0]}
+                        </span>
+                      </div>
+                      <p className="text-xs font-semibold text-white mt-1 truncate">
+                        {fu.customer_name}
+                      </p>
+                      <p className="text-[11px] text-zinc-400 truncate mt-0.5">{fu.reason}</p>
+                    </div>
+                  ))}
+
+                  {dueToday.map((fu) => (
+                    <div
+                      key={fu.id}
+                      onClick={() => {
+                        setShowNotifications(false);
+                        navigate('/follow-ups');
+                      }}
+                      className="p-2.5 rounded-xl bg-[#61C9F6]/10 border border-[#61C9F6]/30 hover:border-[#61C9F6]/50 transition cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-[#61C9F6] flex items-center gap-1 font-semibold">
+                          <Clock className="w-3 h-3" /> Due Today
+                        </span>
+                        <span className="text-[10px] text-[#61C9F6] font-mono font-bold">Today</span>
+                      </div>
+                      <p className="text-xs font-semibold text-white mt-1 truncate">
+                        {fu.customer_name}
+                      </p>
+                      <p className="text-[11px] text-zinc-400 truncate mt-0.5">{fu.reason}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* Primary Action Button: Add Lead */}
+        {/* Quick Add Lead Button */}
         {onOpenQuickLead && (
           <button
             onClick={onOpenQuickLead}
-            className="apple-btn-primary min-h-[40px] px-3.5 sm:px-4 py-2 flex items-center gap-2 text-xs font-semibold cursor-pointer shrink-0"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 text-xs font-extrabold shadow-md shadow-[#61C9F6]/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
-            <Plus className="w-4 h-4 stroke-[2.5]" />
-            <span className="hidden sm:inline">Add Potential Lead</span>
-            <span className="sm:hidden">Add Lead</span>
+            <Plus className="w-3.5 h-3.5 text-slate-950 stroke-[3]" />
+            <span>Add Lead</span>
           </button>
         )}
       </div>

@@ -106,22 +106,20 @@ export const LeadDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="apple-panel p-16 text-center space-y-3 relative">
-        <div className="apple-specular" />
-        <div className="w-8 h-8 rounded-full border-2 border-sky-400/20 border-t-sky-400 animate-spin mx-auto" />
-        <p className="text-xs text-slate-400 font-mono">Synchronizing lead intelligence...</p>
+      <div className="p-16 text-center space-y-3 rounded-3xl bg-[#0E0E18]/80 border border-white/10 shadow-2xl backdrop-blur-2xl">
+        <div className="w-10 h-10 rounded-full border-2 border-[#61C9F6]/20 border-t-[#61C9F6] animate-spin mx-auto" />
+        <p className="text-xs text-zinc-400 font-mono">Synchronizing lead intelligence...</p>
       </div>
     );
   }
 
   if (!lead) {
     return (
-      <div className="apple-panel p-16 text-center space-y-4 relative">
-        <div className="apple-specular" />
-        <h3 className="text-sm font-semibold text-slate-200">Lead Record Not Found</h3>
+      <div className="p-16 text-center space-y-4 rounded-3xl bg-[#0E0E18]/80 border border-white/10 shadow-2xl backdrop-blur-2xl">
+        <h3 className="text-base font-bold text-white">Lead Record Not Found</h3>
         <button
           onClick={() => navigate('/leads')}
-          className="apple-btn-primary"
+          className="px-5 py-2.5 bg-[#61C9F6] hover:brightness-110 rounded-2xl text-xs font-extrabold text-slate-950 transition cursor-pointer"
         >
           Return to Leads Directory
         </button>
@@ -130,48 +128,48 @@ export const LeadDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Top Header Card */}
-      <div className="apple-panel p-6 relative">
-        <div className="apple-specular" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0C1527]/90 via-[#09101F]/80 to-[#0A162B]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
         <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
             <button
               onClick={() => navigate('/leads')}
-              className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-300 hover:text-white transition cursor-pointer"
+              className="p-2.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-zinc-300 hover:text-white transition cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-100">{lead.customer_name}</h1>
-                <span className="pill-sky">
+                <h1 className="text-2xl font-extrabold text-white">{lead.customer_name}</h1>
+                <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#61C9F6]/15 text-sky-200 border border-[#61C9F6]/25">
                   {lead.platform} @{lead.handle}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Channel: <strong className="text-slate-200">{lead.lead_source}</strong> • Logged {new Date(lead.created_at).toLocaleDateString()}
+              <p className="text-xs text-zinc-400 mt-1">
+                Channel: <strong className="text-zinc-200">{lead.lead_source}</strong> • Logged {new Date(lead.created_at).toLocaleDateString()}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             {lead.profile_url && (
               <a
                 href={lead.profile_url}
                 target="_blank"
                 rel="noreferrer"
-                className="apple-btn-secondary flex items-center gap-1.5"
+                className="px-3.5 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-zinc-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition"
               >
                 <span>Profile</span>
-                <ExternalLink className="w-3.5 h-3.5 text-sky-400" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#61C9F6]" />
               </a>
             )}
 
             <button
               onClick={() => setIsEditOpen(true)}
-              className="apple-btn-secondary flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-zinc-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
             >
               <Edit className="w-3.5 h-3.5" />
               <span>Edit</span>
@@ -180,7 +178,7 @@ export const LeadDetailPage: React.FC = () => {
             {isSuperAdmin && (
               <button
                 onClick={() => setIsDeleteOpen(true)}
-                className="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 text-rose-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                className="px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 text-rose-300 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Delete</span>
@@ -190,9 +188,9 @@ export const LeadDetailPage: React.FC = () => {
             {!lead.is_converted && (
               <button
                 onClick={() => setIsConvertOpen(true)}
-                className="px-4 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-semibold shadow-lg shadow-emerald-500/25 flex items-center gap-1.5 transition cursor-pointer"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/30 flex items-center gap-2 transition cursor-pointer"
               >
-                <Trophy className="w-3.5 h-3.5" />
+                <Trophy className="w-4 h-4 text-amber-300" />
                 <span>Convert to Client</span>
               </button>
             )}
@@ -201,58 +199,58 @@ export const LeadDetailPage: React.FC = () => {
       </div>
 
       {/* Main Grid: Details & Notes */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Details & Conversation Notes */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="lg:col-span-2 space-y-6">
           {/* Key Facts Card */}
-          <div className="apple-panel p-6 space-y-4 relative">
-            <div className="apple-specular" />
+          <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl space-y-4">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
 
-            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-sky-400" /> Game Project Interest & Target Specs
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#61C9F6]" /> Game Project Interest & Target Specs
             </h3>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="p-3 rounded-xl glass-inner">
-                <span className="text-slate-400 text-[10px] uppercase font-mono block">Genre</span>
-                <span className="font-semibold text-slate-100 mt-1 block truncate">{lead.game_type}</span>
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <span className="text-zinc-400 text-[10px] uppercase font-mono block">Game Genre</span>
+                <span className="font-bold text-white mt-1 block">{lead.game_type}</span>
               </div>
 
-              <div className="p-3 rounded-xl glass-inner">
-                <span className="text-slate-400 text-[10px] uppercase font-mono block">Package</span>
-                <span className="font-semibold text-sky-300 mt-1 block truncate">{lead.package_name || 'Custom Spec'}</span>
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <span className="text-zinc-400 text-[10px] uppercase font-mono block">Package</span>
+                <span className="font-bold text-[#61C9F6] mt-1 block">{lead.package_name || 'Custom Spec'}</span>
               </div>
 
-              <div className="p-3 rounded-xl glass-inner">
-                <span className="text-slate-400 text-[10px] uppercase font-mono block">Budget (BDT)</span>
-                <span className="font-semibold text-emerald-400 font-mono tabular-nums mt-1 block text-sm">
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <span className="text-zinc-400 text-[10px] uppercase font-mono block">Budget (BDT)</span>
+                <span className="font-bold text-emerald-400 font-mono mt-1 block text-sm">
                   ৳{lead.estimated_budget_bdt.toLocaleString()}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl glass-inner">
-                <span className="text-slate-400 text-[10px] uppercase font-mono block">Priority</span>
-                <span className="font-semibold text-slate-100 mt-1 block">{lead.priority}</span>
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5">
+                <span className="text-zinc-400 text-[10px] uppercase font-mono block">Priority</span>
+                <span className="font-bold text-white mt-1 block">{lead.priority}</span>
               </div>
             </div>
 
             {lead.phone && (
-              <div className="flex items-center gap-2 text-xs text-slate-300 pt-3 border-t border-white/[0.06] font-mono">
-                <Phone className="w-3.5 h-3.5 text-sky-400" />
-                <span>Contact Phone: <strong className="text-slate-100">{lead.phone}</strong></span>
+              <div className="flex items-center gap-2 text-xs text-zinc-300 pt-3 border-t border-white/5 font-mono">
+                <Phone className="w-3.5 h-3.5 text-[#61C9F6]" />
+                <span>Contact Phone: <strong className="text-white">{lead.phone}</strong></span>
               </div>
             )}
           </div>
 
           {/* Conversation Notes Log */}
-          <div className="apple-panel p-6 space-y-4 relative">
-            <div className="apple-specular" />
+          <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl space-y-4">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
 
-            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
-              <MessageSquare className="w-3.5 h-3.5 text-sky-400" /> Conversation History & Intel
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[#61C9F6]" /> Conversation History & Intel
             </h3>
 
-            <div className="p-4 rounded-xl glass-inner text-xs text-slate-300 whitespace-pre-line max-h-60 overflow-y-auto leading-relaxed">
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 text-xs text-zinc-300 whitespace-pre-line max-h-60 overflow-y-auto leading-relaxed font-sans">
               {lead.conversation_notes || 'No conversation notes recorded yet.'}
             </div>
 
@@ -263,16 +261,16 @@ export const LeadDetailPage: React.FC = () => {
                 value={newNote}
                 onChange={(e) => setNewNote(e.target.value)}
                 placeholder="Append new conversation note, quote update, or client inquiry details..."
-                className="apple-input w-full resize-none text-xs"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-white text-xs placeholder:text-zinc-500 focus:outline-none focus:border-[#61C9F6] transition resize-none"
               />
               <div className="flex justify-end">
                 <button
                   type="button"
                   onClick={handleAppendNote}
                   disabled={!newNote.trim()}
-                  className="apple-btn-primary flex items-center gap-1.5 text-xs py-1.5 px-3.5"
+                  className="px-4 py-2 rounded-xl bg-[#61C9F6] hover:brightness-110 disabled:opacity-40 text-slate-950 text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shadow-md shadow-[#61C9F6]/30"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-3.5 h-3.5 text-slate-950 stroke-[2.5]" />
                   <span>Append Note</span>
                 </button>
               </div>
@@ -281,22 +279,22 @@ export const LeadDetailPage: React.FC = () => {
         </div>
 
         {/* Right Col: Status, Assignment & Follow-ups */}
-        <div className="space-y-5">
+        <div className="space-y-6">
           {/* Status & Reassignment Card */}
-          <div className="apple-panel p-6 space-y-4 relative">
-            <div className="apple-specular" />
+          <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl space-y-4">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
 
-            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono">Status & Staff Assignment</h3>
+            <h3 className="text-sm font-bold text-white">Status & Staff Assignment</h3>
 
             <div className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-[11px] font-medium text-slate-400 mb-1">
+                <label className="block text-[11px] font-semibold text-zinc-400 mb-1">
                   Lead Status
                 </label>
                 <select
                   value={lead.status}
                   onChange={(e) => handleStatusChange(e.target.value as LeadStatus)}
-                  className="apple-input w-full cursor-pointer text-xs"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
                 >
                   <option value="New">New</option>
                   <option value="Contacted">Contacted</option>
@@ -310,14 +308,14 @@ export const LeadDetailPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-medium text-slate-400 mb-1">
+                <label className="block text-[11px] font-semibold text-zinc-400 mb-1">
                   Assigned Salesperson {isSuperAdmin ? '(Reassignable)' : ''}
                 </label>
                 {isSuperAdmin ? (
                   <select
                     value={lead.assigned_to || ''}
                     onChange={(e) => handleReassign(e.target.value)}
-                    className="apple-input w-full cursor-pointer text-xs"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
                   >
                     {staffList.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -326,7 +324,7 @@ export const LeadDetailPage: React.FC = () => {
                     ))}
                   </select>
                 ) : (
-                  <p className="px-3.5 py-2 rounded-xl glass-inner text-slate-200 text-xs font-mono">
+                  <p className="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-zinc-200 text-xs font-mono">
                     {lead.assigned_staff_id || 'Unassigned'} ({lead.assigned_staff_name || 'Staff'})
                   </p>
                 )}
@@ -335,49 +333,53 @@ export const LeadDetailPage: React.FC = () => {
           </div>
 
           {/* Follow-up Reminders on this Lead */}
-          <div className="apple-panel p-6 space-y-4 relative">
-            <div className="apple-specular" />
+          <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl space-y-4">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
 
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5 text-sky-400" /> Reminders
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#61C9F6]" /> Reminders
               </h3>
               <button
                 onClick={() => navigate('/follow-ups')}
-                className="text-xs text-sky-400 hover:text-sky-300 font-medium"
+                className="text-xs text-[#61C9F6] hover:text-sky-300 font-mono font-bold"
               >
                 + Schedule
               </button>
             </div>
 
             {followUps.length === 0 ? (
-              <p className="text-xs text-slate-500 py-3 text-center font-mono">
+              <p className="text-xs text-zinc-500 py-3 text-center font-mono">
                 No follow-ups recorded for this lead yet.
               </p>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {followUps.map((fu) => (
                   <div
                     key={fu.id}
-                    className={`p-3 rounded-xl border text-xs space-y-1 transition ${
+                    className={`p-3.5 rounded-2xl border text-xs space-y-1.5 transition ${
                       fu.status === 'Completed'
-                        ? 'bg-white/[0.02] border-white/[0.04] opacity-60'
-                        : 'glass-card border-sky-400/25'
+                        ? 'bg-white/[0.02] border-white/5 opacity-60'
+                        : 'bg-[#61C9F6]/10 border-[#61C9F6]/25'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] text-slate-400">
+                      <span className="font-mono text-[10px] text-zinc-400">
                         {fu.scheduled_at.split('T')[0]}
                       </span>
                       <span
-                        className={fu.status === 'Completed' ? 'pill-emerald' : 'pill-sky'}
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-mono ${
+                          fu.status === 'Completed'
+                            ? 'bg-emerald-500/15 text-emerald-300'
+                            : 'bg-[#61C9F6]/20 text-[#61C9F6]'
+                        }`}
                       >
                         {fu.status}
                       </span>
                     </div>
-                    <p className="text-slate-200 font-medium">{fu.reason}</p>
+                    <p className="text-white font-medium">{fu.reason}</p>
                     {fu.result_notes && (
-                      <p className="text-[11px] text-slate-400 italic">"{fu.result_notes}"</p>
+                      <p className="text-[11px] text-zinc-400 italic">"{fu.result_notes}"</p>
                     )}
                   </div>
                 ))}

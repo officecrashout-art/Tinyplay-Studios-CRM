@@ -28,6 +28,7 @@ export const Layout: React.FC = () => {
 
   const pendingCount = followUps.filter((f) => f.status === 'Pending').length;
 
+  // Derive title from current path
   const getPageInfo = () => {
     const path = location.pathname;
     if (path.startsWith('/dashboard')) {
@@ -66,28 +67,26 @@ export const Layout: React.FC = () => {
   const { title, subtitle } = getPageInfo();
 
   return (
-    <div className="flex h-screen bg-[#0B0E14] text-[#F5F7FA] overflow-hidden relative">
-      {/* Apple Subtle Ambient Depth — Restrained, cool-toned graphite glow */}
-      <div className="fixed -top-32 left-1/4 w-[600px] h-[600px] bg-[#1E293B]/20 rounded-full blur-[160px] pointer-events-none z-0" />
-      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-[#0F172A]/30 rounded-full blur-[150px] pointer-events-none z-0" />
+    <div className="flex h-screen bg-[#07070C] text-zinc-100 overflow-hidden relative">
+      {/* Dynamic Ambient Glass Glow Orbs (#61C9F6 Lightish Sky Blue) */}
+      <div className="fixed -top-24 left-64 w-[550px] h-[550px] bg-[#61C9F6]/15 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="fixed top-1/4 -right-20 w-[500px] h-[500px] bg-[#0284C7]/15 rounded-full blur-[150px] pointer-events-none z-0" />
+      <div className="fixed -bottom-28 left-1/3 w-[600px] h-[600px] bg-[#38BDF8]/10 rounded-full blur-[160px] pointer-events-none z-0" />
 
-      {/* Desktop Sidebar (Level 1 Structural Glass) */}
-      <div className="hidden lg:block relative z-20 shrink-0">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block relative z-20">
         <Sidebar pendingFollowUpsCount={pendingCount} />
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex lg:hidden">
           <div
-            className="fixed inset-0 apple-backdrop"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="relative z-10 w-64 h-full shadow-2xl animate-in slide-in-from-left duration-200">
-            <Sidebar
-              pendingFollowUpsCount={pendingCount}
-              onNavigate={() => setMobileMenuOpen(false)}
-            />
+          <div className="relative z-10 w-64 shadow-2xl">
+            <Sidebar pendingFollowUpsCount={pendingCount} />
           </div>
         </div>
       )}
@@ -115,6 +114,7 @@ export const Layout: React.FC = () => {
         onClose={() => setIsQuickLeadOpen(false)}
         onSuccess={(_newLead) => {
           loadFollowUps();
+          // Navigate to leads list to view newly created lead
           navigate('/leads');
         }}
       />

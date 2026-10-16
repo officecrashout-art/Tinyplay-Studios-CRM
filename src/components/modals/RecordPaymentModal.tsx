@@ -90,46 +90,46 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
   const projectedRemaining = Math.max(0, agreedPrice - (currentPaid + numEntered));
 
   return (
-    <div className="apple-backdrop fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="apple-modal w-full max-w-lg flex flex-col relative">
-        <div className="apple-specular" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+      <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-lg shadow-2xl overflow-hidden flex flex-col backdrop-blur-2xl">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
 
         {/* Header */}
-        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-emerald-400/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400">
-              <Receipt className="w-4 h-4" />
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+              <Receipt className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-100">Record Project Payment</h3>
-              <p className="text-xs text-slate-400 truncate max-w-xs">{project.title}</p>
+              <h3 className="text-base font-bold text-white">Record Project Payment</h3>
+              <p className="text-xs text-zinc-400 truncate max-w-xs">{project.title}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-white/[0.06] rounded-lg cursor-pointer transition"
+            className="p-1.5 text-zinc-400 hover:text-white rounded-xl cursor-pointer transition"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Balance Snapshot Card */}
-        <div className="p-4 border-b border-white/[0.06] grid grid-cols-3 gap-2.5 text-center">
-          <div className="p-2.5 rounded-xl glass-inner">
-            <p className="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Agreed</p>
-            <p className="text-xs font-semibold text-slate-200 font-mono tabular-nums mt-0.5">
+        <div className="p-4 bg-black/40 border-b border-white/5 grid grid-cols-3 gap-3 text-center">
+          <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
+            <p className="text-[10px] text-zinc-400 uppercase font-mono">Agreed Price</p>
+            <p className="text-xs font-bold text-white font-mono mt-0.5">
               ৳{agreedPrice.toLocaleString()}
             </p>
           </div>
-          <div className="p-2.5 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/20">
-            <p className="text-[10px] text-emerald-400/80 uppercase font-mono tracking-wider">Paid</p>
-            <p className="text-xs font-semibold text-emerald-400 font-mono tabular-nums mt-0.5">
+          <div className="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15">
+            <p className="text-[10px] text-emerald-400/80 uppercase font-mono">Already Paid</p>
+            <p className="text-xs font-bold text-emerald-400 font-mono mt-0.5">
               ৳{currentPaid.toLocaleString()}
             </p>
           </div>
-          <div className="p-2.5 rounded-xl bg-rose-500/[0.06] border border-rose-500/20">
-            <p className="text-[10px] text-rose-400/80 uppercase font-mono tracking-wider">Balance</p>
-            <p className="text-xs font-semibold text-rose-400 font-mono tabular-nums mt-0.5">
+          <div className="p-2.5 rounded-xl bg-rose-500/[0.04] border border-rose-500/15">
+            <p className="text-[10px] text-zinc-400 uppercase font-mono">Current Balance</p>
+            <p className="text-xs font-bold text-rose-400 font-mono mt-0.5">
               ৳{project.remaining_balance_bdt.toLocaleString()}
             </p>
           </div>
@@ -138,16 +138,16 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs">
           {error && (
-            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-300 text-xs flex items-center gap-2">
+            <div className="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                Payment Amount (৳) <span className="text-sky-400">*</span>
+              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                Payment Amount (৳) <span className="text-[#61C9F6]">*</span>
               </label>
               <input
                 type="number"
@@ -156,18 +156,18 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="10000"
-                className="apple-input w-full font-mono tabular-nums"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
                 Payment Stage / Type
               </label>
               <select
                 value={paymentType}
                 onChange={(e) => setPaymentType(e.target.value as PaymentType)}
-                className="apple-input w-full cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
               >
                 <option value="Advance">Advance Deposit</option>
                 <option value="Partial">Partial Milestone</option>
@@ -176,15 +176,15 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                Payment Method <span className="text-sky-400">*</span>
+              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                Payment Method <span className="text-[#61C9F6]">*</span>
               </label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                className="apple-input w-full cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
               >
                 <option value="bKash">bKash (Merchant / Personal)</option>
                 <option value="Nagad">Nagad</option>
@@ -195,7 +195,7 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
                 Payment Date
               </label>
               <input
@@ -203,13 +203,13 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
                 required
                 value={paymentDate}
                 onChange={(e) => setPaymentDate(e.target.value)}
-                className="apple-input w-full"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
               Transaction ID / Slip Reference
             </label>
             <input
@@ -217,12 +217,12 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
               value={transactionRef}
               onChange={(e) => setTransactionRef(e.target.value)}
               placeholder="e.g. BK7729910"
-              className="apple-input w-full font-mono"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">
+            <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
               Notes & Verification
             </label>
             <input
@@ -230,31 +230,31 @@ export const RecordPaymentModal: React.FC<RecordPaymentModalProps> = ({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. Verified by accountant on personal bKash"
-              className="apple-input w-full"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition"
             />
           </div>
 
           {/* Balance Preview */}
-          <div className="p-3.5 rounded-xl bg-sky-500/[0.08] border border-sky-400/20 flex items-center justify-between">
-            <span className="text-xs text-sky-300 font-medium">New Remaining Balance:</span>
-            <span className="text-sm font-semibold font-mono tabular-nums text-slate-100">
+          <div className="p-3.5 rounded-2xl bg-[#61C9F6]/10 border border-[#61C9F6]/25 flex items-center justify-between">
+            <span className="text-xs text-[#61C9F6] font-medium">New Remaining Balance:</span>
+            <span className="text-sm font-bold font-mono text-white">
               ৳{projectedRemaining.toLocaleString()}
             </span>
           </div>
 
           {/* Footer */}
-          <div className="pt-3 border-t border-white/[0.08] flex items-center justify-end gap-3">
+          <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="apple-btn-secondary"
+              className="px-4 py-2 rounded-xl text-zinc-400 hover:text-white text-xs font-medium cursor-pointer transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-semibold shadow-lg shadow-emerald-500/25 flex items-center gap-2 cursor-pointer transition disabled:opacity-50"
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition disabled:opacity-50"
             >
               {loading ? (
                 <span>Recording...</span>

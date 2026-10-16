@@ -253,17 +253,20 @@ export const TeamManagementPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="apple-panel relative overflow-hidden p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0C1527]/90 via-[#09101F]/80 to-[#0A162B]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-72 h-32 bg-[#61C9F6]/10 rounded-full blur-3xl pointer-events-none" />
+
         <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full pill-sky text-[11px] font-medium tracking-wide">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#7DD3FC]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#61C9F6]/10 border border-[#61C9F6]/25 text-[#61C9F6] text-[11px] font-semibold tracking-wide">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#61C9F6]" />
               <span>Super Admin Authority Panel</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F5F7FA]">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
               Staff & Team Administration
             </h1>
-            <p className="text-xs text-[#A3ADBA] max-w-xl">
+            <p className="text-xs text-zinc-400 max-w-xl">
               Provision internal salesperson credentials, configure roles, reset access passwords, and reallocate client workloads.
             </p>
           </div>
@@ -273,91 +276,93 @@ export const TeamManagementPage: React.FC = () => {
               setCreateError(null);
               setIsCreateOpen(true);
             }}
-            className="apple-btn-primary min-h-[42px] px-5 py-2 text-xs font-semibold flex items-center gap-2 cursor-pointer self-start lg:self-auto"
+            className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 text-xs font-extrabold tracking-wide shadow-lg shadow-[#61C9F6]/25 flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 cursor-pointer self-start lg:self-auto"
           >
-            <Plus className="w-4 h-4 text-[#0A101D] stroke-[2.5]" />
+            <Plus className="w-4 h-4 text-slate-950 stroke-[3]" />
             <span>Provision Staff Account</span>
           </button>
         </div>
 
         {/* Team KPI Strip */}
-        <div className="relative mt-6 pt-5 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="glass-inner p-3.5">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#A3ADBA] block">Total Team</span>
-            <div className="flex items-baseline gap-1.5 mt-1.5">
-              <span className="text-xl font-bold font-mono tabular-nums text-[#F5F7FA]">{teamStats.total}</span>
-              <span className="text-[11px] text-[#A3ADBA]">accounts</span>
+        <div className="relative mt-6 pt-5 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/5">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block">Total Team</span>
+            <div className="flex items-baseline gap-1.5 mt-1">
+              <span className="text-xl font-bold font-mono text-white">{teamStats.total}</span>
+              <span className="text-[11px] text-zinc-500">accounts</span>
             </div>
           </div>
 
-          <div className="glass-inner p-3.5 border-[#34D399]/20 bg-[#34D399]/[0.04]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#A7F3D0] block flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-[#34D399]" /> Active Roster
+          <div className="p-3 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/15">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-300/80 block flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Active Roster
             </span>
-            <div className="flex items-baseline gap-1.5 mt-1.5">
-              <span className="text-xl font-bold font-mono tabular-nums text-[#A7F3D0]">{teamStats.active}</span>
-              <span className="text-[11px] text-[#34D399]/70">online</span>
+            <div className="flex items-baseline gap-1.5 mt-1">
+              <span className="text-xl font-bold font-mono text-emerald-300">{teamStats.active}</span>
+              <span className="text-[11px] text-emerald-400/60">online</span>
             </div>
           </div>
 
-          <div className="glass-inner p-3.5 border-[#7DD3FC]/20 bg-[#7DD3FC]/[0.04]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#BAE6FD] block">Sales Force</span>
-            <div className="flex items-baseline gap-1.5 mt-1.5">
-              <span className="text-xl font-bold font-mono tabular-nums text-[#BAE6FD]">{teamStats.sales}</span>
-              <span className="text-[11px] text-[#7DD3FC]/70">representatives</span>
+          <div className="p-3 rounded-2xl bg-[#61C9F6]/[0.08] border border-[#61C9F6]/20">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#61C9F6] block">Sales Force</span>
+            <div className="flex items-baseline gap-1.5 mt-1">
+              <span className="text-xl font-bold font-mono text-sky-200">{teamStats.sales}</span>
+              <span className="text-[11px] text-sky-300/60">representatives</span>
             </div>
           </div>
 
-          <div className="glass-inner p-3.5 border-[#FBBF24]/20 bg-[#FBBF24]/[0.04]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#FDE68A] block flex items-center gap-1">
-              <ShieldAlert className="w-3 h-3 text-[#FBBF24]" /> Super Admins
+          <div className="p-3 rounded-2xl bg-amber-500/[0.04] border border-amber-500/15">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300/80 block flex items-center gap-1">
+              <ShieldAlert className="w-3 h-3 text-amber-400" /> Super Admins
             </span>
-            <div className="flex items-baseline gap-1.5 mt-1.5">
-              <span className="text-xl font-bold font-mono tabular-nums text-[#FDE68A]">{teamStats.admins}</span>
-              <span className="text-[11px] text-[#FBBF24]/70">executives</span>
+            <div className="flex items-baseline gap-1.5 mt-1">
+              <span className="text-xl font-bold font-mono text-amber-300">{teamStats.admins}</span>
+              <span className="text-[11px] text-amber-400/60">executives</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Staff Table */}
-      <div className="apple-panel overflow-hidden">
+      <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 overflow-hidden shadow-2xl backdrop-blur-2xl">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+
         <div className="overflow-x-auto">
-          <table className="apple-table w-full text-left text-xs border-collapse">
+          <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-white/[0.08] text-[#A3ADBA] font-mono uppercase tracking-wider text-[10px]">
-                <th className="py-3.5 px-4 font-semibold">Staff ID</th>
-                <th className="py-3.5 px-4 font-semibold">Full Name</th>
-                <th className="py-3.5 px-4 font-semibold">Auth Identifier</th>
-                <th className="py-3.5 px-4 font-semibold">Role</th>
-                <th className="py-3.5 px-4 font-semibold">Account Status</th>
-                <th className="py-3.5 px-4 font-semibold">Phone</th>
-                <th className="py-3.5 px-4 font-semibold text-right">Admin Actions</th>
+              <tr className="border-b border-white/10 bg-white/[0.02] text-zinc-400 font-mono uppercase tracking-wider text-[10px]">
+                <th className="py-4 px-4 font-semibold">Staff ID</th>
+                <th className="py-4 px-4 font-semibold">Full Name</th>
+                <th className="py-4 px-4 font-semibold">Auth Identifier</th>
+                <th className="py-4 px-4 font-semibold">Role</th>
+                <th className="py-4 px-4 font-semibold">Account Status</th>
+                <th className="py-4 px-4 font-semibold">Phone</th>
+                <th className="py-4 px-4 font-semibold text-right">Admin Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.06]">
+            <tbody className="divide-y divide-white/5">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-[#A3ADBA] font-mono">
+                  <td colSpan={7} className="py-16 text-center text-zinc-400 font-mono">
                     Synchronizing team directory...
                   </td>
                 </tr>
               ) : (
                 staff.map((s) => (
-                  <tr key={s.id} className="hover:bg-white/[0.035] transition-colors group">
-                    <td className="py-3.5 px-4 font-mono font-semibold text-[#7DD3FC] flex items-center gap-2">
-                      <span className="pill-sky px-2.5 py-0.5 rounded-xl">
+                  <tr key={s.id} className="hover:bg-white/[0.04] transition-colors group">
+                    <td className="py-3.5 px-4 font-mono font-bold text-[#61C9F6] flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-xl bg-[#61C9F6]/10 border border-[#61C9F6]/25 text-sky-200">
                         {s.staff_id}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 font-medium text-[#F5F7FA]">{s.full_name}</td>
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-[#A3ADBA]">{s.email}</td>
+                    <td className="py-3.5 px-4 font-bold text-white">{s.full_name}</td>
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-zinc-400">{s.email}</td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold tracking-wider ${
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider ${
                           s.role === 'SUPER_ADMIN'
-                            ? 'pill-amber'
-                            : 'pill-sky'
+                            ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
+                            : 'bg-[#61C9F6]/15 text-[#61C9F6] border border-[#61C9F6]/30'
                         }`}
                       >
                         {s.role}
@@ -365,25 +370,25 @@ export const TeamManagementPage: React.FC = () => {
                     </td>
                     <td className="py-3.5 px-4">
                       {s.is_active ? (
-                        <span className="pill-emerald inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
-                          <CheckCircle2 className="w-3 h-3 text-[#34D399]" /> Active
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Active
                         </span>
                       ) : (
-                        <span className="pill-rose inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
-                          <AlertCircle className="w-3 h-3 text-[#FB7185]" /> Disabled
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                          <AlertCircle className="w-3 h-3 text-rose-400" /> Disabled
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[#A3ADBA]">{s.phone || '—'}</td>
+                    <td className="py-3.5 px-4 font-mono text-zinc-400">{s.phone || '—'}</td>
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         {/* Edit Staff Profile */}
                         <button
                           onClick={() => openEditModal(s)}
                           title="Edit Staff Details"
-                          className="apple-btn-secondary p-1.5 text-xs transition cursor-pointer"
+                          className="p-1.5 rounded-xl bg-white/[0.05] hover:bg-[#61C9F6]/15 text-zinc-300 hover:text-[#61C9F6] border border-white/10 hover:border-[#61C9F6]/30 text-xs transition cursor-pointer"
                         >
-                          <Edit3 className="w-3.5 h-3.5 text-[#7DD3FC]" />
+                          <Edit3 className="w-3.5 h-3.5 text-sky-300" />
                         </button>
 
                         {/* Change Password */}
@@ -394,9 +399,9 @@ export const TeamManagementPage: React.FC = () => {
                             setPassError(null);
                           }}
                           title="Reset Password"
-                          className="apple-btn-secondary p-1.5 text-xs transition cursor-pointer"
+                          className="p-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 border border-white/10 text-xs transition cursor-pointer"
                         >
-                          <Key className="w-3.5 h-3.5 text-[#7DD3FC]" />
+                          <Key className="w-3.5 h-3.5 text-[#61C9F6]" />
                         </button>
 
                         {/* Reassign Workload (Sales only) */}
@@ -408,9 +413,9 @@ export const TeamManagementPage: React.FC = () => {
                               setReassignSuccess(null);
                             }}
                             title="Reassign Customer Workload"
-                            className="apple-btn-secondary p-1.5 text-xs transition cursor-pointer"
+                            className="p-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 border border-white/10 text-xs transition cursor-pointer"
                           >
-                            <Shuffle className="w-3.5 h-3.5 text-[#7DD3FC]" />
+                            <Shuffle className="w-3.5 h-3.5 text-sky-400" />
                           </button>
                         )}
 
@@ -419,16 +424,16 @@ export const TeamManagementPage: React.FC = () => {
                           <button
                             onClick={() => handleToggleActive(s)}
                             title={s.is_active ? 'Deactivate Account' : 'Activate Account'}
-                            className={`p-1.5 rounded-xl text-xs transition cursor-pointer ${
+                            className={`p-1.5 rounded-xl border text-xs transition cursor-pointer ${
                               s.is_active
-                                ? 'pill-rose'
-                                : 'pill-emerald'
+                                ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border-rose-500/30'
+                                : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                             }`}
                           >
                             {s.is_active ? (
-                              <UserX className="w-3.5 h-3.5 text-[#FB7185]" />
+                              <UserX className="w-3.5 h-3.5 text-rose-400" />
                             ) : (
-                              <UserCheck className="w-3.5 h-3.5 text-[#34D399]" />
+                              <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
                             )}
                           </button>
                         )}
@@ -438,9 +443,9 @@ export const TeamManagementPage: React.FC = () => {
                           <button
                             onClick={() => setDeletingStaff(s)}
                             title="Delete Staff Account"
-                            className="p-1.5 rounded-xl pill-rose text-xs transition cursor-pointer"
+                            className="p-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/25 text-xs transition cursor-pointer"
                           >
-                            <Trash2 className="w-3.5 h-3.5 text-[#FB7185]" />
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         )}
                       </div>
@@ -455,31 +460,33 @@ export const TeamManagementPage: React.FC = () => {
 
       {/* 1. Modal: Provision New Staff */}
       {isCreateOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 apple-backdrop animate-in fade-in">
-          <div className="apple-modal w-full max-w-md p-6 space-y-4 relative overflow-hidden">
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-md shadow-2xl p-6 space-y-4 backdrop-blur-2xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
+
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#7DD3FC]" />
-                <h3 className="text-sm font-semibold text-[#F5F7FA]">Provision Staff Account</h3>
+                <Users className="w-4 h-4 text-[#61C9F6]" />
+                <h3 className="text-base font-bold text-white">Provision Staff Account</h3>
               </div>
               <button
                 onClick={() => setIsCreateOpen(false)}
-                className="text-[#A3ADBA] hover:text-[#F5F7FA] transition cursor-pointer"
+                className="text-zinc-400 hover:text-white transition"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {createError && (
-              <div className="p-3 rounded-xl pill-rose text-xs">
+              <div className="p-3 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
                 {createError}
               </div>
             )}
 
             <form onSubmit={handleCreateStaff} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Unique Staff ID (e.g. SALES-004) <span className="text-[#7DD3FC]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Unique Staff ID (e.g. SALES-004) <span className="text-[#61C9F6]">*</span>
                 </label>
                 <input
                   type="text"
@@ -487,13 +494,13 @@ export const TeamManagementPage: React.FC = () => {
                   placeholder="SALES-004"
                   value={newStaffId}
                   onChange={(e) => setNewStaffId(e.target.value.toUpperCase())}
-                  className="apple-input w-full px-3.5 py-2 font-mono"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white font-mono focus:outline-none focus:border-[#61C9F6] transition"
                 />
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Full Name <span className="text-[#7DD3FC]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Full Name <span className="text-[#61C9F6]">*</span>
                 </label>
                 <input
                   type="text"
@@ -501,13 +508,13 @@ export const TeamManagementPage: React.FC = () => {
                   placeholder="Sales Representative Name"
                   value={newFullName}
                   onChange={(e) => setNewFullName(e.target.value)}
-                  className="apple-input w-full px-3.5 py-2"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
                 />
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Email Address <span className="text-[#7DD3FC]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Email Address <span className="text-[#61C9F6]">*</span>
                 </label>
                 <input
                   type="email"
@@ -515,16 +522,16 @@ export const TeamManagementPage: React.FC = () => {
                   placeholder="sales.rep@gmail.com"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value.toLowerCase())}
-                  className="apple-input w-full px-3.5 py-2 font-mono"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition font-mono"
                 />
-                <p className="text-[10px] text-[#64748B] mt-1">
+                <p className="text-[10px] text-zinc-400 mt-1">
                   Used by Supabase to send official password reset links and account notifications.
                 </p>
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Initial Password <span className="text-[#7DD3FC]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Initial Password <span className="text-[#61C9F6]">*</span>
                 </label>
                 <input
                   type="password"
@@ -532,12 +539,12 @@ export const TeamManagementPage: React.FC = () => {
                   placeholder="••••••••••••"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="apple-input w-full px-3.5 py-2"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
                 />
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
+                <label className="block text-zinc-300 font-semibold mb-1">
                   Contact Phone (Optional)
                 </label>
                 <input
@@ -545,34 +552,34 @@ export const TeamManagementPage: React.FC = () => {
                   placeholder="+880 1..."
                   value={newPhone}
                   onChange={(e) => setNewPhone(e.target.value)}
-                  className="apple-input w-full px-3.5 py-2"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
                 />
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">Assigned Role</label>
+                <label className="block text-zinc-300 font-semibold mb-1">Assigned Role</label>
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value as any)}
-                  className="apple-input w-full px-3.5 py-2 cursor-pointer"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
                 >
                   <option value="SALES">SALES (Salesperson)</option>
                   <option value="SUPER_ADMIN">SUPER_ADMIN (Executive)</option>
                 </select>
               </div>
 
-              <div className="pt-3 flex justify-end gap-2 border-t border-white/[0.08]">
+              <div className="pt-3 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsCreateOpen(false)}
-                  className="apple-btn-secondary px-4 py-2 cursor-pointer"
+                  className="px-4 py-2 text-zinc-400 hover:text-white transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createLoading}
-                  className="apple-btn-primary px-5 py-2 text-xs font-semibold disabled:opacity-50 transition cursor-pointer"
+                  className="px-5 py-2 bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 font-bold rounded-xl disabled:opacity-50 transition cursor-pointer shadow-lg shadow-[#61C9F6]/30"
                 >
                   {createLoading ? 'Provisioning...' : 'Create Account'}
                 </button>
@@ -584,12 +591,14 @@ export const TeamManagementPage: React.FC = () => {
 
       {/* 2. Modal: Change Password */}
       {passwordTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 apple-backdrop animate-in fade-in">
-          <div className="apple-modal w-full max-w-sm p-6 space-y-4 relative overflow-hidden">
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-sm shadow-2xl p-6 space-y-4 backdrop-blur-2xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
+
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Key className="w-4 h-4 text-[#7DD3FC]" />
-                <h3 className="text-sm font-semibold text-[#F5F7FA]">
+                <Key className="w-4 h-4 text-[#61C9F6]" />
+                <h3 className="text-sm font-bold text-white">
                   Reset Password for {passwordTarget.staff_id}
                 </h3>
               </div>
@@ -599,73 +608,73 @@ export const TeamManagementPage: React.FC = () => {
                   setResetEmailSuccess(null);
                   setPassError(null);
                 }}
-                className="text-[#A3ADBA] hover:text-[#F5F7FA] transition cursor-pointer"
+                className="text-zinc-400 hover:text-white transition"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {passError && (
-              <div className="p-3 rounded-xl pill-rose text-xs">
+              <div className="p-3 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
                 {passError}
               </div>
             )}
 
             {resetEmailSuccess && (
-              <div className="p-3 rounded-xl pill-emerald text-xs flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#34D399] shrink-0" />
+              <div className="p-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>{resetEmailSuccess}</span>
               </div>
             )}
 
             {/* Supabase Password Reset Email Dispatch */}
-            <div className="p-3.5 rounded-2xl glass-inner space-y-2">
+            <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 space-y-2">
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-[#A3ADBA]">Target Email:</span>
-                <span className="text-[#F5F7FA] font-mono font-semibold truncate max-w-[180px]">{passwordTarget.email}</span>
+                <span className="text-zinc-400">Target Email:</span>
+                <span className="text-white font-mono font-bold truncate max-w-[180px]">{passwordTarget.email}</span>
               </div>
               <button
                 type="button"
                 onClick={() => handleSendResetEmail(passwordTarget.email)}
                 disabled={resetEmailLoading}
-                className="apple-btn-secondary w-full py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer"
+                className="w-full py-2 px-3 rounded-xl bg-[#61C9F6]/10 hover:bg-[#61C9F6]/20 text-sky-200 hover:text-white border border-[#61C9F6]/30 text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer"
               >
-                <Mail className="w-3.5 h-3.5 text-[#7DD3FC]" />
+                <Mail className="w-3.5 h-3.5 text-[#61C9F6]" />
                 <span>{resetEmailLoading ? 'Dispatching Email...' : 'Send Password Reset Email'}</span>
               </button>
             </div>
 
             <div className="relative flex py-1 items-center">
-              <div className="flex-grow border-t border-white/[0.08]"></div>
-              <span className="flex-shrink mx-2 text-[10px] uppercase font-mono text-[#64748B]">Or Set Directly</span>
-              <div className="flex-grow border-t border-white/[0.08]"></div>
+              <div className="flex-grow border-t border-white/10"></div>
+              <span className="flex-shrink mx-2 text-[10px] uppercase font-mono text-zinc-500">Or Set Directly</span>
+              <div className="flex-grow border-t border-white/10"></div>
             </div>
 
             <form onSubmit={handleChangePassword} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">New Password</label>
+                <label className="block text-zinc-300 font-semibold mb-1">New Password</label>
                 <input
                   type="password"
                   required
                   placeholder="Min 6 characters"
                   value={updatedPass}
                   onChange={(e) => setUpdatedPass(e.target.value)}
-                  className="apple-input w-full px-3.5 py-2"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
                 />
               </div>
 
-              <div className="pt-2 flex justify-end gap-2 border-t border-white/[0.08]">
+              <div className="pt-2 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setPasswordTarget(null)}
-                  className="apple-btn-secondary px-4 py-2 cursor-pointer"
+                  className="px-4 py-2 text-zinc-400 hover:text-white transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={passLoading}
-                  className="apple-btn-primary px-5 py-2 font-semibold disabled:opacity-50 transition cursor-pointer"
+                  className="px-5 py-2 bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 font-bold rounded-xl disabled:opacity-50 transition cursor-pointer shadow-lg shadow-[#61C9F6]/30"
                 >
                   {passLoading ? 'Updating...' : 'Set Password'}
                 </button>
@@ -677,43 +686,45 @@ export const TeamManagementPage: React.FC = () => {
 
       {/* 3. Modal: Reassign Workload */}
       {reassignFrom && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 apple-backdrop animate-in fade-in">
-          <div className="apple-modal w-full max-w-md p-6 space-y-4 relative overflow-hidden">
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-md shadow-2xl p-6 space-y-4 backdrop-blur-2xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
+
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Shuffle className="w-4 h-4 text-[#7DD3FC]" />
-                <h3 className="text-sm font-semibold text-[#F5F7FA]">
+                <Shuffle className="w-4 h-4 text-sky-400" />
+                <h3 className="text-sm font-bold text-white">
                   Reassign Workload from {reassignFrom.staff_id}
                 </h3>
               </div>
               <button
                 onClick={() => setReassignFrom(null)}
-                className="text-[#A3ADBA] hover:text-[#F5F7FA] transition cursor-pointer"
+                className="text-zinc-400 hover:text-white transition"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {reassignSuccess ? (
-              <div className="p-3.5 rounded-xl pill-emerald text-xs">
+              <div className="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs">
                 {reassignSuccess}
               </div>
             ) : (
               <form onSubmit={handleReassignWorkload} className="space-y-4 text-xs">
-                <p className="text-[#A3ADBA]">
+                <p className="text-zinc-400">
                   Transfer all leads, customers, and active game projects currently assigned to{' '}
-                  <strong className="text-[#F5F7FA]">{reassignFrom.full_name} ({reassignFrom.staff_id})</strong> to another salesperson:
+                  <strong className="text-white">{reassignFrom.full_name} ({reassignFrom.staff_id})</strong> to another salesperson:
                 </p>
 
                 <div>
-                  <label className="block text-[#A3ADBA] font-medium mb-1">
+                  <label className="block text-zinc-300 font-semibold mb-1">
                     Select Target Salesperson
                   </label>
                   <select
                     required
                     value={reassignToId}
                     onChange={(e) => setReassignToId(e.target.value)}
-                    className="apple-input w-full px-3.5 py-2.5 cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
                   >
                     <option value="">Choose salesperson...</option>
                     {staff
@@ -726,18 +737,18 @@ export const TeamManagementPage: React.FC = () => {
                   </select>
                 </div>
 
-                <div className="pt-2 flex justify-end gap-2 border-t border-white/[0.08]">
+                <div className="pt-2 flex justify-end gap-2">
                   <button
                     type="button"
                     onClick={() => setReassignFrom(null)}
-                    className="apple-btn-secondary px-4 py-2 cursor-pointer"
+                    className="px-4 py-2 text-zinc-400 hover:text-white transition"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={reassignLoading || !reassignToId}
-                    className="apple-btn-primary px-5 py-2 font-semibold disabled:opacity-50 transition cursor-pointer"
+                    className="px-5 py-2 bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 font-bold rounded-xl disabled:opacity-50 transition cursor-pointer shadow-lg shadow-[#61C9F6]/30"
                   >
                     {reassignLoading ? 'Transferring...' : 'Transfer Workload'}
                   </button>
@@ -750,130 +761,132 @@ export const TeamManagementPage: React.FC = () => {
 
       {/* 4. Modal: Edit Staff Member */}
       {editingStaff && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 apple-backdrop animate-in fade-in">
-          <div className="apple-modal w-full max-w-md p-6 space-y-4 relative overflow-hidden">
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-md shadow-2xl p-6 space-y-4 backdrop-blur-2xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#61C9F6]/40 to-transparent pointer-events-none" />
+
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Edit3 className="w-4 h-4 text-[#7DD3FC]" />
-                <h3 className="text-sm font-semibold text-[#F5F7FA]">
-                  Edit Staff: <span className="font-mono text-[#7DD3FC]">{editingStaff.staff_id}</span>
+                <Edit3 className="w-4 h-4 text-[#61C9F6]" />
+                <h3 className="text-base font-bold text-white">
+                  Edit Staff: <span className="font-mono text-[#61C9F6]">{editingStaff.staff_id}</span>
                 </h3>
               </div>
               <button
                 onClick={() => setEditingStaff(null)}
-                className="text-[#A3ADBA] hover:text-[#F5F7FA] transition cursor-pointer"
+                className="text-zinc-400 hover:text-white transition"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {editError && (
-              <div className="p-3 rounded-xl pill-rose text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-[#FB7185] shrink-0" />
+              <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
                 <span>{editError}</span>
               </div>
             )}
 
             <form onSubmit={handleUpdateStaff} className="space-y-3.5 text-xs">
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Full Name <span className="text-[#FB7185]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Full Name <span className="text-rose-400">*</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={editFullName}
                   onChange={(e) => setEditFullName(e.target.value)}
-                  className="apple-input w-full px-3.5 py-2"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
                   placeholder="e.g. Tanvir Hossain"
                 />
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Email Address <span className="text-[#FB7185]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Email Address <span className="text-rose-400">*</span>
                 </label>
                 <input
                   type="email"
                   required
                   value={editEmail}
                   onChange={(e) => setEditEmail(e.target.value.toLowerCase())}
-                  className="apple-input w-full px-3.5 py-2 font-mono"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition font-mono"
                   placeholder="e.g. tanvir@gmail.com"
                 />
-                <p className="text-[10px] text-[#64748B] mt-1">
+                <p className="text-[10px] text-zinc-400 mt-1">
                   Password reset links will be sent to this email address.
                 </p>
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
-                  Assigned Role <span className="text-[#FB7185]">*</span>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Assigned Role <span className="text-rose-400">*</span>
                 </label>
                 <select
                   value={editRole}
                   onChange={(e) => setEditRole(e.target.value as 'SALES' | 'SUPER_ADMIN')}
-                  className="apple-input w-full px-3.5 py-2 cursor-pointer"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
                 >
-                  <option value="SALES" className="bg-[#121821] text-[#F5F7FA]">Sales Representative (Restricted Access)</option>
-                  <option value="SUPER_ADMIN" className="bg-[#121821] text-[#F5F7FA]">Super Admin (Full Administrative Authority)</option>
+                  <option value="SALES" className="bg-[#0E0E18] text-white">Sales Representative (Restricted Access)</option>
+                  <option value="SUPER_ADMIN" className="bg-[#0E0E18] text-white">Super Admin (Full Administrative Authority)</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
+                <label className="block text-zinc-300 font-semibold mb-1">
                   Contact Phone Number
                 </label>
                 <input
                   type="tel"
                   value={editPhone}
                   onChange={(e) => setEditPhone(e.target.value)}
-                  className="apple-input w-full px-3.5 py-2 font-mono"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition font-mono"
                   placeholder="+880 1XXX-XXXXXX"
                 />
               </div>
 
               <div>
-                <label className="block text-[#A3ADBA] font-medium mb-1">
+                <label className="block text-zinc-300 font-semibold mb-1">
                   Account Status
                 </label>
                 <div className="flex items-center gap-3 mt-1.5">
-                  <label className="flex items-center gap-2 cursor-pointer text-[#F5F7FA]">
+                  <label className="flex items-center gap-2 cursor-pointer text-zinc-300">
                     <input
                       type="radio"
                       name="account_status"
                       checked={editIsActive}
                       onChange={() => setEditIsActive(true)}
-                      className="accent-[#7DD3FC]"
+                      className="accent-[#61C9F6]"
                     />
                     <span>Active (Allowed to login)</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer text-[#A3ADBA]">
+                  <label className="flex items-center gap-2 cursor-pointer text-zinc-400">
                     <input
                       type="radio"
                       name="account_status"
                       checked={!editIsActive}
                       onChange={() => setEditIsActive(false)}
                       disabled={editingStaff.id === user?.id}
-                      className="accent-[#FB7185]"
+                      className="accent-rose-500"
                     />
                     <span>Disabled</span>
                   </label>
                 </div>
               </div>
 
-              <div className="pt-2 flex justify-end gap-2 border-t border-white/[0.08]">
+              <div className="pt-2 flex justify-end gap-2 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setEditingStaff(null)}
-                  className="apple-btn-secondary px-4 py-2 cursor-pointer"
+                  className="px-4 py-2 text-zinc-400 hover:text-white transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={editLoading}
-                  className="apple-btn-primary px-5 py-2 text-xs font-semibold disabled:opacity-50 transition cursor-pointer"
+                  className="px-5 py-2 bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 font-bold rounded-xl disabled:opacity-50 transition cursor-pointer shadow-lg shadow-[#61C9F6]/25"
                 >
                   {editLoading ? 'Saving...' : 'Save Changes'}
                 </button>
