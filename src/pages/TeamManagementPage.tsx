@@ -16,6 +16,7 @@ import {
   Trash2,
   ShieldAlert,
   Sparkles,
+  Edit3,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { apiStaff } from '@/services/api';
@@ -52,6 +53,52 @@ export const TeamManagementPage: React.FC = () => {
   // Delete Staff Modal
   const [deletingStaff, setDeletingStaff] = useState<StaffProfile | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+
+  // Edit Staff Modal
+  const [editingStaff, setEditingStaff] = useState<StaffProfile | null>(null);
+  const [editFullName, setEditFullName] = useState('');
+  const [editRole, setEditRole] = useState<'SALES' | 'SUPER_ADMIN'>('SALES');
+  const [editPhone, setEditPhone] = useState('');
+  const [editIsActive, setEditIsActive] = useState(true);
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
+
+  const openEditModal = (s: StaffProfile) => {
+    setEditingStaff(s);
+    setEditFullName(s.full_name);
+    setEditRole(s.role);
+    setEditPhone(s.phone || '');
+    setEditIsActive(s.is_active);
+    setEditError(null);
+  };
+
+  const handleUpdateStaff = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingStaff) return;
+    if (!editFullName.trim()) {
+      setEditError('Full name is required');
+      return;
+    }
+
+    try {
+      setEditLoading(true);
+      setEditError(null);
+      const updated = await apiStaff.updateStaff(editingStaff.id, {
+        full_name: editFullName.trim(),
+        role: editRole,
+        phone: editPhone.trim() || undefined,
+        is_active: editIsActive,
+      });
+
+      setStaff((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+      setEditingStaff(null);
+      await loadStaff();
+    } catch (err: any) {
+      setEditError(err?.message || 'Failed to update staff member');
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   useEffect(() => {
     loadStaff();
@@ -307,6 +354,15 @@ export const TeamManagementPage: React.FC = () => {
                     <td className="py-3.5 px-4 font-mono text-zinc-400">{s.phone || '—'}</td>
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
+                        {/* Edit Staff Profile */}
+                        <button
+                          onClick={() => openEditModal(s)}
+                          title="Edit Staff Details"
+                          className="p-1.5 rounded-xl bg-white/[0.05] hover:bg-[#61C9F6]/15 text-zinc-300 hover:text-[#61C9F6] border border-white/10 hover:border-[#61C9F6]/30 text-xs transition cursor-pointer"
+                        >
+                          <Edit3 className="w-3.5 h-3.5 text-sky-300" />
+                        </button>
+
                         {/* Change Password */}
                         <button
                           onClick={() => {
@@ -620,6 +676,126 @@ export const TeamManagementPage: React.FC = () => {
                 </div>
               </form>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* 4. Modal: Edit Staff Member */}
+      {editingStaff && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-md shadow-2xl p-6 space-y-4 backdrop-blur-2xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#61C9F6]/40 to-transparent pointer-events-none" />
+
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Edit3 className="w-4 h-4 text-[#61C9F6]" />
+                <h3 className="text-base font-bold text-white">
+                  Edit Staff: <span className="font-mono text-[#61C9F6]">{editingStaff.staff_id}</span>
+                </h3>
+              </div>
+              <button
+                onClick={() => setEditingStaff(null)}
+                className="text-zinc-400 hover:text-white transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {editError && (
+              <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                <span>{editError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleUpdateStaff} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Full Name <span className="text-rose-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFullName}
+                  onChange={(e) => setEditFullName(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition"
+                  placeholder="e.g. Tanvir Hossain"
+                />
+              </div>
+
+              <div>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Assigned Role <span className="text-rose-400">*</span>
+                </label>
+                <select
+                  value={editRole}
+                  onChange={(e) => setEditRole(e.target.value as 'SALES' | 'SUPER_ADMIN')}
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
+                >
+                  <option value="SALES" className="bg-[#0E0E18] text-white">Sales Representative (Restricted Access)</option>
+                  <option value="SUPER_ADMIN" className="bg-[#0E0E18] text-white">Super Admin (Full Administrative Authority)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Contact Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={editPhone}
+                  onChange={(e) => setEditPhone(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-[#61C9F6] transition font-mono"
+                  placeholder="+880 1XXX-XXXXXX"
+                />
+              </div>
+
+              <div>
+                <label className="block text-zinc-300 font-semibold mb-1">
+                  Account Status
+                </label>
+                <div className="flex items-center gap-3 mt-1.5">
+                  <label className="flex items-center gap-2 cursor-pointer text-zinc-300">
+                    <input
+                      type="radio"
+                      name="account_status"
+                      checked={editIsActive}
+                      onChange={() => setEditIsActive(true)}
+                      className="accent-[#61C9F6]"
+                    />
+                    <span>Active (Allowed to login)</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer text-zinc-400">
+                    <input
+                      type="radio"
+                      name="account_status"
+                      checked={!editIsActive}
+                      onChange={() => setEditIsActive(false)}
+                      disabled={editingStaff.id === user?.id}
+                      className="accent-rose-500"
+                    />
+                    <span>Disabled</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setEditingStaff(null)}
+                  className="px-4 py-2 text-zinc-400 hover:text-white transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={editLoading}
+                  className="px-5 py-2 bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 font-bold rounded-xl disabled:opacity-50 transition cursor-pointer shadow-lg shadow-[#61C9F6]/25"
+                >
+                  {editLoading ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -592,6 +592,67 @@ export const apiStaff = {
     return { reassignedLeads, reassignedProjects };
   },
 
+  async updateStaff(
+    userId: string,
+    payload: {
+      full_name?: string;
+      role?: 'SALES' | 'SUPER_ADMIN';
+      phone?: string;
+      is_active?: boolean;
+    }
+  ): Promise<StaffProfile> {
+    if (currentAuthStaff && currentAuthStaff.role !== 'SUPER_ADMIN') {
+      throw new Error('Unauthorized: Only Super Admin can edit staff accounts.');
+    }
+
+    if (isSupabaseConfigured() && supabase && isValidUUID(userId)) {
+      const updateData: any = {
+        updated_at: new Date().toISOString(),
+      };
+      if (payload.full_name !== undefined) updateData.full_name = payload.full_name.trim();
+      if (payload.role !== undefined) updateData.role = payload.role;
+      if (payload.phone !== undefined) updateData.phone = payload.phone?.trim() || null;
+      if (payload.is_active !== undefined) updateData.is_active = payload.is_active;
+
+      const { data, error } = await supabase
+        .from('staff_profiles')
+        .update(updateData)
+        .eq('id', userId)
+        .select()
+        .single();
+
+      if (!error && data) {
+        const updated = data as StaffProfile;
+        staffList = staffList.map((s) => (s.id === userId ? updated : s));
+        saveStaff();
+        return updated;
+      }
+    }
+
+    const staff = staffList.find((s) => s.id === userId);
+    if (!staff) throw new Error('Staff account not found');
+
+    if (payload.full_name) staff.full_name = payload.full_name.trim();
+    if (payload.role) staff.role = payload.role;
+    if (payload.phone !== undefined) staff.phone = payload.phone?.trim() || null;
+    if (payload.is_active !== undefined) staff.is_active = payload.is_active;
+    staff.updated_at = new Date().toISOString();
+
+    saveStaff();
+
+    if (currentAuthStaff) {
+      apiActivity.logActivity({
+        actor: currentAuthStaff,
+        entity_type: 'staff',
+        entity_id: staff.id,
+        action: 'UPDATE',
+        description: `${currentAuthStaff.staff_id} updated staff profile for ${staff.staff_id} (${staff.full_name})`,
+      });
+    }
+
+    return staff;
+  },
+
   async deleteStaff(userId: string): Promise<void> {
     if (currentAuthStaff && currentAuthStaff.role !== 'SUPER_ADMIN') {
       throw new Error('Unauthorized: Only Super Admin can delete staff members.');
@@ -603,8 +664,12 @@ export const apiStaff = {
     const staff = staffList.find((s) => s.id === userId);
 
     if (isSupabaseConfigured() && supabase && isValidUUID(userId)) {
+      try {
+        await supabase.rpc('admin_delete_staff', { p_user_id: userId });
+      } catch {}
+
       const { error } = await supabase.from('staff_profiles').delete().eq('id', userId);
-      if (error) throw new Error(error.message);
+      if (error) console.warn('Supabase delete staff error:', error.message);
     }
 
     staffList = staffList.filter((s) => s.id !== userId);
