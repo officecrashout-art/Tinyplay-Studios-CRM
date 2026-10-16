@@ -79,7 +79,7 @@ export const TeamManagementPage: React.FC = () => {
     try {
       setCreateLoading(true);
       setCreateError(null);
-      await apiStaff.createStaff({
+      const newMember = await apiStaff.createStaff({
         staff_id: newStaffId.trim().toUpperCase(),
         full_name: newFullName.trim(),
         password: newPassword,
@@ -87,12 +87,18 @@ export const TeamManagementPage: React.FC = () => {
         role: newRole,
       });
 
+      // Update UI immediately
+      setStaff((prev) => {
+        const filtered = prev.filter((s) => s.staff_id.toUpperCase() !== newMember.staff_id.toUpperCase());
+        return [...filtered, newMember].sort((a, b) => a.staff_id.localeCompare(b.staff_id));
+      });
+
       setIsCreateOpen(false);
       setNewStaffId('');
       setNewFullName('');
       setNewPassword('');
       setNewPhone('');
-      loadStaff();
+      await loadStaff();
     } catch (err: any) {
       setCreateError(err?.message || 'Failed to create staff account');
     } finally {

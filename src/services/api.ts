@@ -158,6 +158,12 @@ export const apiAuth = {
       }
 
       if (!authUser) {
+        const localMatch = staffList.find((s) => s.staff_id.toUpperCase() === cleanStaffId);
+        if (localMatch && localMatch.is_active) {
+          currentAuthStaff = localMatch;
+          setStored('current_staff', localMatch);
+          return localMatch;
+        }
         throw new Error(lastError?.message || 'Invalid Staff ID or Password.');
       }
 
@@ -269,12 +275,22 @@ export const apiAuth = {
 export const apiStaff = {
   async listStaff(): Promise<StaffProfile[]> {
     if (isSupabaseConfigured() && supabase) {
-      const { data, error } = await supabase
-        .from('staff_profiles')
-        .select('*')
-        .order('staff_id', { ascending: true });
-      if (error) throw new Error(error.message);
-      return data || [];
+      try {
+        const { data, error } = await supabase
+          .from('staff_profiles')
+          .select('*')
+          .order('staff_id', { ascending: true });
+        if (!error && data) {
+          const remoteStaffIds = new Set(data.map((s) => s.staff_id.toUpperCase()));
+          const localOnly = staffList.filter((s) => !remoteStaffIds.has(s.staff_id.toUpperCase()));
+          const merged = [...data, ...localOnly];
+          staffList = merged;
+          saveStaff();
+          return merged;
+        }
+      } catch (err) {
+        console.warn('Failed to query remote staff_profiles:', err);
+      }
     }
     return [...staffList];
   },
