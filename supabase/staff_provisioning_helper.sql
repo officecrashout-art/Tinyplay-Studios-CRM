@@ -85,7 +85,7 @@ BEGIN
     now()
   );
 
-  -- Insert into public.staff_profiles
+  -- Insert into public.staff_profiles (Handles trigger conflict gracefully)
   INSERT INTO public.staff_profiles (
     id,
     staff_id,
@@ -106,7 +106,15 @@ BEGIN
     p_phone,
     now(),
     now()
-  );
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    staff_id = EXCLUDED.staff_id,
+    full_name = EXCLUDED.full_name,
+    email = EXCLUDED.email,
+    role = EXCLUDED.role,
+    is_active = EXCLUDED.is_active,
+    phone = EXCLUDED.phone,
+    updated_at = now();
 
   SELECT jsonb_build_object(
     'id', v_user_id,
