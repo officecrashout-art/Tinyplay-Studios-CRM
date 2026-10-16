@@ -150,6 +150,14 @@ SELECT public._sync_peak_user('SALES-004', 'Nishat', 'jamlessmochi201@gmail.com'
 -- Cleanup temporary helper function
 DROP FUNCTION IF EXISTS public._sync_peak_user(TEXT, TEXT, TEXT, TEXT, TEXT, TEXT);
 
+-- Drop existing functions first to avoid PostgreSQL 42P13 return type conflict
+DROP FUNCTION IF EXISTS public.admin_change_staff_password(text, text);
+DROP FUNCTION IF EXISTS public.admin_delete_staff(uuid);
+DROP FUNCTION IF EXISTS public.admin_create_staff(text, text, text, text, text, text);
+DROP FUNCTION IF EXISTS public.admin_create_staff(text, text, text, text, text);
+DROP FUNCTION IF EXISTS public.admin_create_staff(text, text, text, text);
+DROP FUNCTION IF EXISTS public.get_staff_email_for_login(text);
+
 -- 3. Ensure Login Helper Function works for Staff IDs and Emails
 CREATE OR REPLACE FUNCTION public.get_staff_email_for_login(p_staff_id text)
 RETURNS text AS $$
