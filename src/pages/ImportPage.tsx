@@ -309,37 +309,38 @@ export const ImportPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Top Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0C1527]/90 via-[#09101F]/80 to-[#0A162B]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-        <div className="absolute top-0 right-1/4 w-72 h-32 bg-[#61C9F6]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="apple-panel p-6 relative">
+        <div className="apple-specular" />
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-5">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#61C9F6]/10 border border-[#61C9F6]/25 text-[#61C9F6] text-[11px] font-semibold tracking-wide">
-              <FileSpreadsheet className="w-3.5 h-3.5 text-[#61C9F6]" />
-              <span>Spreadsheet Ingestion Pipeline</span>
+            <div className="inline-flex items-center gap-2">
+              <span className="pill-sky">
+                <FileSpreadsheet className="w-3.5 h-3.5" />
+                <span>Spreadsheet Ingestion Pipeline</span>
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-100">
               Historical Projects Migration
             </h1>
-            <p className="text-xs text-zinc-400 max-w-xl">
+            <p className="text-xs text-slate-400 max-w-xl">
               Import existing PROJECTS.xlsx workbooks. Parse Instagram handles, partial advance payments, ambiguous dates, and asset links with automated validation.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={downloadSampleTemplate}
-              className="px-4 py-2.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-zinc-300 hover:text-white text-xs font-semibold flex items-center gap-2 transition cursor-pointer"
+              className="apple-btn-secondary flex items-center gap-2"
             >
-              <Download className="w-4 h-4 text-[#61C9F6]" />
+              <Download className="w-4 h-4 text-sky-400" />
               <span>Download Template</span>
             </button>
             <button
               onClick={loadDemoData}
-              className="px-4 py-2.5 rounded-2xl bg-[#61C9F6]/15 hover:bg-[#61C9F6]/25 border border-[#61C9F6]/30 text-[#61C9F6] text-xs font-bold flex items-center gap-2 transition cursor-pointer shadow-sm hover:shadow-[#61C9F6]/20"
+              className="apple-btn-primary flex items-center gap-2"
             >
               <Sparkles className="w-4 h-4" />
               <span>Load Demo PROJECTS.xlsx</span>
@@ -349,14 +350,14 @@ export const ImportPage: React.FC = () => {
       </div>
 
       {importSuccessMessage && (
-        <div className="p-4 rounded-3xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between shadow-lg shadow-emerald-950/40 backdrop-blur-2xl animate-in fade-in">
+        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
             <span className="font-semibold">{importSuccessMessage}</span>
           </div>
           <button
             onClick={() => navigate('/projects')}
-            className="px-4 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl text-xs font-bold cursor-pointer transition shadow-md shadow-emerald-500/30"
+            className="apple-btn-primary text-xs py-1 px-3"
           >
             Go to Projects
           </button>
@@ -364,23 +365,23 @@ export const ImportPage: React.FC = () => {
       )}
 
       {/* Upload Dropzone */}
-      <div className="relative rounded-3xl bg-[#0E0E18]/80 border-2 border-dashed border-white/15 hover:border-[#61C9F6]/50 p-8 shadow-2xl backdrop-blur-2xl text-center space-y-4 transition-all">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
+      <div className="apple-panel border-2 border-dashed border-white/[0.12] hover:border-sky-400/40 p-8 text-center space-y-4 transition-all relative">
+        <div className="apple-specular" />
 
-        <div className="w-14 h-14 rounded-2xl bg-[#61C9F6]/10 text-[#61C9F6] flex items-center justify-center mx-auto border border-[#61C9F6]/20 shadow-[0_0_20px_rgba(97,201,246,0.15)]">
-          <Upload className="w-7 h-7" />
+        <div className="w-12 h-12 rounded-2xl bg-sky-400/10 text-sky-400 flex items-center justify-center mx-auto border border-sky-400/20">
+          <Upload className="w-6 h-6" />
         </div>
         <div className="space-y-1">
-          <h3 className="text-sm font-bold text-white">
+          <h3 className="text-sm font-semibold text-slate-100">
             {fileName ? `Loaded: ${fileName}` : 'Upload PROJECTS.xlsx or CSV Workbook'}
           </h3>
-          <p className="text-xs text-zinc-400 max-w-sm mx-auto">
+          <p className="text-xs text-slate-400 max-w-sm mx-auto">
             Supports Instagram handles, agreed prices, milestone payments, delivery dates, and developer assignments.
           </p>
         </div>
 
         <div>
-          <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 text-xs font-extrabold shadow-lg shadow-[#61C9F6]/30 cursor-pointer transition-all transform hover:-translate-y-0.5">
+          <label className="apple-btn-primary inline-flex items-center gap-2 cursor-pointer">
             <span>Browse Files</span>
             <input
               type="file"
@@ -396,69 +397,67 @@ export const ImportPage: React.FC = () => {
       {rawRows.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <FileSpreadsheet className="w-4 h-4 text-[#61C9F6]" />
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
+              <FileSpreadsheet className="w-3.5 h-3.5 text-sky-400" />
               Pre-Import Review & Field Mapping ({rawRows.length} rows)
             </h3>
-            <span className="text-xs text-zinc-400 font-mono">
+            <span className="text-xs text-slate-400 font-mono">
               Review flags & warnings before administrator confirmation
             </span>
           </div>
 
-          <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 overflow-hidden shadow-2xl backdrop-blur-2xl">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+          <div className="apple-panel overflow-hidden relative">
+            <div className="apple-specular" />
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
+              <table className="apple-table">
                 <thead>
-                  <tr className="border-b border-white/10 bg-white/[0.02] text-zinc-400 font-mono uppercase text-[10px]">
-                    <th className="py-3 px-3 font-semibold">#</th>
-                    <th className="py-3 px-3 font-semibold">Instagram User</th>
-                    <th className="py-3 px-3 font-semibold">Package</th>
-                    <th className="py-3 px-3 font-semibold">Stage</th>
-                    <th className="py-3 px-3 font-semibold">Advance Paid (BDT)</th>
-                    <th className="py-3 px-3 font-semibold">Expected Full</th>
-                    <th className="py-3 px-3 font-semibold">Delivery Date</th>
-                    <th className="py-3 px-3 font-semibold">Developer</th>
-                    <th className="py-3 px-3 font-semibold">Warnings & Flags</th>
+                  <tr>
+                    <th>#</th>
+                    <th>Instagram User</th>
+                    <th>Package</th>
+                    <th>Stage</th>
+                    <th>Advance Paid (BDT)</th>
+                    <th>Expected Full</th>
+                    <th>Delivery Date</th>
+                    <th>Developer</th>
+                    <th>Warnings & Flags</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody>
                   {rawRows.map((row) => {
                     const hasWarnings = row.statusFlags.warnings.length > 0;
 
                     return (
                       <tr
                         key={row.rowNumber}
-                        className={`hover:bg-white/[0.04] transition ${
-                          hasWarnings ? 'bg-amber-500/[0.04]' : ''
-                        }`}
+                        className={hasWarnings ? 'bg-amber-500/[0.04]' : ''}
                       >
-                        <td className="py-3.5 px-3 font-mono text-zinc-400">{row.rowNumber}</td>
-                        <td className="py-3.5 px-3 font-bold text-white">
+                        <td className="font-mono text-slate-400">{row.rowNumber}</td>
+                        <td className="font-semibold text-slate-100">
                           @{row.instagramUser || 'unknown'}
                         </td>
-                        <td className="py-3.5 px-3 text-zinc-300 font-medium">{row.tierPackage}</td>
-                        <td className="py-3.5 px-3 font-mono text-[11px] text-[#61C9F6] font-semibold">
+                        <td className="text-slate-300">{row.tierPackage}</td>
+                        <td className="font-mono text-sky-300">
                           {row.parsedData.stage}
                         </td>
-                        <td className="py-3.5 px-3 font-mono text-emerald-400 font-bold">
+                        <td className="font-mono tabular-nums text-emerald-400 font-semibold">
                           ৳{row.parsedData.advancePaidBDT.toLocaleString()}
                         </td>
-                        <td className="py-3.5 px-3 font-mono text-white">
+                        <td className="font-mono tabular-nums text-slate-100">
                           ৳{row.parsedData.agreedPriceBDT.toLocaleString()}
                         </td>
-                        <td className="py-3.5 px-3 font-mono text-zinc-300">
+                        <td className="font-mono text-slate-300">
                           {row.parsedData.deliveryDate || '—'}
                         </td>
-                        <td className="py-3.5 px-3 text-zinc-300">{row.developer}</td>
-                        <td className="py-3.5 px-3">
+                        <td className="text-slate-300">{row.developer}</td>
+                        <td>
                           {hasWarnings ? (
                             <div className="space-y-1">
                               {row.statusFlags.warnings.map((warn, i) => (
                                 <p
                                   key={i}
-                                  className="text-[10px] text-amber-300 flex items-center gap-1 leading-tight font-medium"
+                                  className="text-[11px] text-amber-300 flex items-center gap-1 leading-tight"
                                 >
                                   <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
                                   <span>{warn}</span>
@@ -466,8 +465,8 @@ export const ImportPage: React.FC = () => {
                               ))}
                             </div>
                           ) : (
-                            <span className="text-emerald-400 text-[11px] flex items-center gap-1 font-mono font-bold">
-                              <CheckCircle2 className="w-3.5 h-3.5" /> Verified
+                            <span className="pill-emerald">
+                              <CheckCircle2 className="w-3 h-3" /> Verified
                             </span>
                           )}
                         </td>
@@ -479,15 +478,15 @@ export const ImportPage: React.FC = () => {
             </div>
 
             {/* Administrator Import Confirmation Bar */}
-            <div className="p-4 bg-white/[0.02] border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="text-xs text-zinc-400">
+            <div className="p-4 border-t border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="text-xs text-slate-400">
                 {isSuperAdmin ? (
-                  <span className="text-zinc-200 font-semibold flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-[#61C9F6]" />
+                  <span className="text-slate-200 font-medium flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-sky-400" />
                     Administrator Confirmation Required. Verify warnings above before committing.
                   </span>
                 ) : (
-                  <span className="text-amber-400 font-semibold">
+                  <span className="text-amber-400 font-medium">
                     Super Admin role required to execute database persistence.
                   </span>
                 )}
@@ -496,20 +495,20 @@ export const ImportPage: React.FC = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setRawRows([])}
-                  className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white cursor-pointer transition"
+                  className="apple-btn-secondary"
                 >
                   Discard Preview
                 </button>
                 <button
                   onClick={handleConfirmImport}
                   disabled={!isSuperAdmin || importing}
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 disabled:opacity-40 text-slate-950 text-xs font-bold shadow-lg shadow-[#61C9F6]/30 flex items-center gap-2 cursor-pointer transition"
+                  className="apple-btn-primary flex items-center gap-2"
                 >
                   {importing ? (
                     <span>Importing to Database...</span>
                   ) : (
                     <>
-                      <Database className="w-4 h-4 text-slate-950" />
+                      <Database className="w-4 h-4" />
                       <span>Commit {rawRows.length} Records to CRM</span>
                     </>
                   )}

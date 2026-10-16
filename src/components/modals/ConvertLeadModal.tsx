@@ -148,73 +148,75 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
   if (!isOpen || !lead) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-      <div className="relative rounded-3xl bg-[#0E0E18]/95 border border-white/15 w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] backdrop-blur-2xl">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
+    <div className="apple-backdrop fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="apple-modal w-full max-w-2xl flex flex-col max-h-[90vh] relative">
+        <div className="apple-specular" />
 
         {/* Header */}
-        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#61C9F6]/15 border border-[#61C9F6]/30 flex items-center justify-center text-[#61C9F6] shadow-[0_0_15px_rgba(97,201,246,0.2)]">
-              <Trophy className="w-5 h-5 text-amber-400" />
+            <div className="w-8 h-8 rounded-xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-400">
+              <Trophy className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                Convert Lead to Confirmed Project
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-slate-100">
+                  Convert Lead to Confirmed Project
+                </h3>
+                <span className="pill-emerald">
                   Deal Won
                 </span>
-              </h3>
-              <p className="text-xs text-zinc-400">
+              </div>
+              <p className="text-xs text-slate-400">
                 Converting {lead.customer_name} ({lead.platform} @{lead.handle})
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-zinc-400 hover:text-white rounded-xl cursor-pointer transition"
+            className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-white/[0.06] rounded-lg cursor-pointer transition"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4 text-xs">
           {error && (
-            <div className="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-300 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Project Details */}
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             <div>
-              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                Game Project Title <span className="text-[#61C9F6]">*</span>
+              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                Game Project Title <span className="text-sky-400">*</span>
               </label>
               <div className="relative">
-                <Gamepad2 className="w-4 h-4 text-[#61C9F6] absolute left-3.5 top-3" />
+                <Gamepad2 className="w-4 h-4 text-sky-400 absolute left-3.5 top-2.5" />
                 <input
                   type="text"
                   required
                   value={gameTitle}
                   onChange={(e) => setGameTitle(e.target.value)}
                   placeholder="e.g. Farhan's Dhaka Rush"
-                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition shadow-inner"
+                  className="apple-input w-full pl-10"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">
                   Package
                 </label>
                 <select
                   value={packageId}
                   onChange={(e) => handlePackageChange(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition cursor-pointer"
+                  className="apple-input w-full cursor-pointer"
                 >
                   <option value="">Custom Package</option>
                   {packages.map((pkg) => (
@@ -226,8 +228,8 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                  Agreed Project Price in BDT (৳) <span className="text-[#61C9F6]">*</span>
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                  Agreed Project Price in BDT (৳) <span className="text-sky-400">*</span>
                 </label>
                 <input
                   type="number"
@@ -235,17 +237,17 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                   min="0"
                   value={agreedPriceBDT}
                   onChange={(e) => setAgreedPriceBDT(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition font-mono"
+                  className="apple-input w-full font-mono tabular-nums"
                 />
-                <span className="text-[10px] text-zinc-500 mt-1 block">
+                <span className="text-[10px] text-slate-500 mt-1 block">
                   This price is permanently frozen for this project.
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">
                   Assigned Game Developer
                 </label>
                 <input
@@ -253,25 +255,25 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                   value={assignedDeveloper}
                   onChange={(e) => setAssignedDeveloper(e.target.value)}
                   placeholder="Developer name"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition"
+                  className="apple-input w-full"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">
                   Target Delivery Date
                 </label>
                 <input
                   type="date"
                   value={targetDeliveryDate}
                   onChange={(e) => setTargetDeliveryDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition"
+                  className="apple-input w-full"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-300 mb-1.5">
                 Personalized Game Description & Plot
               </label>
               <textarea
@@ -279,12 +281,12 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                 value={personalizedDescription}
                 onChange={(e) => setPersonalizedDescription(e.target.value)}
                 placeholder="Game backstory, player goals, theme..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition resize-none"
+                className="apple-input w-full resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+              <label className="block text-xs font-medium text-slate-300 mb-1.5">
                 Custom Requirements & Art Details
               </label>
               <textarea
@@ -292,32 +294,32 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                 value={customRequirements}
                 onChange={(e) => setCustomRequirements(e.target.value)}
                 placeholder="Specific sprite reference photos, Bengali audio snippets, special stage layout..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm focus:outline-none focus:border-[#61C9F6] transition resize-none"
+                className="apple-input w-full resize-none"
               />
             </div>
           </div>
 
           {/* Advance Payment Section */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
+          <div className="p-4 rounded-xl glass-inner space-y-3">
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={hasAdvancePayment}
                   onChange={(e) => setHasAdvancePayment(e.target.checked)}
-                  className="w-4 h-4 rounded text-[#61C9F6] focus:ring-[#61C9F6] bg-black/40 border-white/20"
+                  className="w-4 h-4 rounded text-sky-400 focus:ring-sky-400 bg-black/40 border-white/20"
                 />
-                <span className="text-xs font-semibold text-white">
+                <span className="text-xs font-semibold text-slate-200">
                   Record Advance Deposit Payment Now
                 </span>
               </label>
-              <span className="text-[11px] text-zinc-400 font-mono">bKash / Nagad / Bank</span>
+              <span className="text-[11px] text-slate-400 font-mono">bKash / Nagad / Bank</span>
             </div>
 
             {hasAdvancePayment && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div>
-                  <label className="block text-[11px] text-zinc-400 mb-1">
+                  <label className="block text-[11px] text-slate-400 mb-1">
                     Advance Amount (৳)
                   </label>
                   <input
@@ -325,16 +327,16 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                     min="1"
                     value={advanceAmountBDT}
                     onChange={(e) => setAdvanceAmountBDT(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-[#61C9F6] font-mono"
+                    className="apple-input w-full font-mono tabular-nums text-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-zinc-400 mb-1">Payment Method</label>
+                  <label className="block text-[11px] text-slate-400 mb-1">Payment Method</label>
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-[#61C9F6] cursor-pointer"
+                    className="apple-input w-full cursor-pointer text-xs"
                   >
                     <option value="bKash">bKash</option>
                     <option value="Nagad">Nagad</option>
@@ -345,7 +347,7 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-zinc-400 mb-1">
+                  <label className="block text-[11px] text-slate-400 mb-1">
                     TrxID / Reference Ref
                   </label>
                   <input
@@ -353,7 +355,7 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
                     value={transactionRef}
                     onChange={(e) => setTransactionRef(e.target.value)}
                     placeholder="e.g. BK9X88210"
-                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-[#61C9F6] font-mono"
+                    className="apple-input w-full font-mono text-xs"
                   />
                 </div>
               </div>
@@ -361,18 +363,18 @@ export const ConvertLeadModal: React.FC<ConvertLeadModalProps> = ({
           </div>
 
           {/* Footer Buttons */}
-          <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-3">
+          <div className="pt-3 border-t border-white/[0.08] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-zinc-400 hover:text-white text-xs font-medium cursor-pointer transition"
+              className="apple-btn-secondary"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 text-xs font-black shadow-lg shadow-[#61C9F6]/25 flex items-center gap-2 cursor-pointer transition disabled:opacity-50"
+              className="apple-btn-primary flex items-center gap-2"
             >
               {loading ? (
                 <span>Converting...</span>

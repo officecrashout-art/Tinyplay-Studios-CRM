@@ -84,90 +84,87 @@ export const FollowUpsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner & Reminders Overview */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#12121E]/90 via-[#0E0E18]/80 to-[#161228]/80 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-        <div className="absolute top-0 right-1/4 w-72 h-32 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="apple-panel relative overflow-hidden p-6 sm:p-7">
         <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] font-semibold tracking-wide">
-              <BellRing className="w-3.5 h-3.5 text-amber-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full pill-amber text-[11px] font-medium tracking-wide">
+              <BellRing className="w-3.5 h-3.5 text-[#FBBF24]" />
               <span>Studio Communications Radar</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F5F7FA]">
               Client Follow-up Schedules
             </h1>
-            <p className="text-xs text-zinc-400 max-w-xl">
+            <p className="text-xs text-[#A3ADBA] max-w-xl">
               Strictly monitor callbacks, quote inquiries, demo previews, and project delivery checkpoints.
             </p>
           </div>
 
           <button
             onClick={() => navigate('/leads')}
-            className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 text-xs font-extrabold tracking-wide shadow-lg shadow-[#61C9F6]/25 flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 cursor-pointer self-start lg:self-auto"
+            className="apple-btn-primary min-h-[42px] px-5 py-2 text-xs font-semibold flex items-center gap-2 cursor-pointer self-start lg:self-auto"
           >
-            <Plus className="w-4 h-4 text-slate-950 stroke-[3]" />
+            <Plus className="w-4 h-4 text-[#0A101D] stroke-[2.5]" />
             <span>Schedule from Leads</span>
           </button>
         </div>
 
         {/* Status Strip */}
-        <div className="relative mt-6 pt-5 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-3 rounded-2xl bg-[#61C9F6]/[0.08] border border-[#61C9F6]/20">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#61C9F6] block flex items-center gap-1">
-              <Clock className="w-3 h-3 text-[#61C9F6]" /> Due Today
+        <div className="relative mt-6 pt-5 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="glass-inner p-3.5 border-[#7DD3FC]/20 bg-[#7DD3FC]/[0.04]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#BAE6FD] block flex items-center gap-1">
+              <Clock className="w-3 h-3 text-[#7DD3FC]" /> Due Today
             </span>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-xl font-bold font-mono text-sky-200">{todayList.length}</span>
-              <span className="text-[11px] text-sky-300/60">reminders</span>
+            <div className="flex items-baseline gap-1.5 mt-1.5">
+              <span className="text-xl font-bold font-mono tabular-nums text-[#BAE6FD]">{todayList.length}</span>
+              <span className="text-[11px] text-[#7DD3FC]/70">reminders</span>
             </div>
           </div>
 
-          <div className="p-3 rounded-2xl bg-rose-500/[0.04] border border-rose-500/15">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-rose-300/80 block flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3 text-rose-400" /> Overdue Attention
+          <div className="glass-inner p-3.5 border-[#FB7185]/20 bg-[#FB7185]/[0.04]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#FECDD3] block flex items-center gap-1">
+              <AlertTriangle className="w-3 h-3 text-[#FB7185]" /> Overdue Attention
             </span>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-xl font-bold font-mono text-rose-300">{overdueList.length}</span>
-              <span className="text-[11px] text-rose-400/60">urgent</span>
+            <div className="flex items-baseline gap-1.5 mt-1.5">
+              <span className="text-xl font-bold font-mono tabular-nums text-[#FECDD3]">{overdueList.length}</span>
+              <span className="text-[11px] text-[#FB7185]/70">urgent</span>
             </div>
           </div>
 
-          <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/5">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block">Upcoming Pipeline</span>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-xl font-bold font-mono text-white">{tomorrowList.length + upcomingList.length}</span>
-              <span className="text-[11px] text-zinc-500">scheduled</span>
+          <div className="glass-inner p-3.5">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#A3ADBA] block">Upcoming Pipeline</span>
+            <div className="flex items-baseline gap-1.5 mt-1.5">
+              <span className="text-xl font-bold font-mono tabular-nums text-[#F5F7FA]">{tomorrowList.length + upcomingList.length}</span>
+              <span className="text-[11px] text-[#A3ADBA]">scheduled</span>
             </div>
           </div>
 
-          <div className="p-3 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/15">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-300/80 block flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Completed
+          <div className="glass-inner p-3.5 border-[#34D399]/20 bg-[#34D399]/[0.04]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#A7F3D0] block flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3 text-[#34D399]" /> Completed
             </span>
-            <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-xl font-bold font-mono text-emerald-300">{completedList.length}</span>
-              <span className="text-[11px] text-emerald-400/60">resolved</span>
+            <div className="flex items-baseline gap-1 mt-1.5">
+              <span className="text-xl font-bold font-mono tabular-nums text-[#A7F3D0]">{completedList.length}</span>
+              <span className="text-[11px] text-[#34D399]/70">resolved</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Tabs / Filter Pills */}
-      <div className="relative rounded-3xl bg-[#0E0E18]/80 border border-white/10 p-3 shadow-2xl backdrop-blur-2xl">
+      <div className="apple-panel p-3">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
           <button
             onClick={() => setActiveTab('TODAY')}
-            className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+            className={`px-4 py-2 rounded-xl font-medium transition cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === 'TODAY'
-                ? 'bg-[#61C9F6] text-slate-950 font-bold shadow-md shadow-[#61C9F6]/30'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-zinc-200 border border-white/5'
+                ? 'pill-sky font-semibold'
+                : 'apple-btn-secondary text-[#A3ADBA] hover:text-[#F5F7FA]'
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
             <span>Due Today</span>
             {todayList.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] bg-slate-950/20 text-slate-950 font-mono font-bold">
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#7DD3FC]/20 text-[#BAE6FD] font-mono font-semibold">
                 {todayList.length}
               </span>
             )}
@@ -175,16 +172,16 @@ export const FollowUpsPage: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('OVERDUE')}
-            className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+            className={`px-4 py-2 rounded-xl font-medium transition cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === 'OVERDUE'
-                ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-rose-300 border border-white/5'
+                ? 'pill-rose font-semibold'
+                : 'apple-btn-secondary text-[#A3ADBA] hover:text-[#FB7185]'
             }`}
           >
-            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+            <AlertTriangle className="w-3.5 h-3.5 text-[#FB7185]" />
             <span>Overdue</span>
             {overdueList.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] bg-rose-950 text-rose-300 font-mono font-bold border border-rose-500/40">
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#FB7185]/20 text-[#FECDD3] font-mono font-semibold">
                 {overdueList.length}
               </span>
             )}
@@ -192,15 +189,15 @@ export const FollowUpsPage: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('TOMORROW')}
-            className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+            className={`px-4 py-2 rounded-xl font-medium transition cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === 'TOMORROW'
-                ? 'bg-[#61C9F6] text-slate-950 font-bold shadow-md shadow-[#61C9F6]/30'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-zinc-200 border border-white/5'
+                ? 'pill-sky font-semibold'
+                : 'apple-btn-secondary text-[#A3ADBA] hover:text-[#F5F7FA]'
             }`}
           >
             <span>Tomorrow</span>
             {tomorrowList.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-zinc-300 font-mono">
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/[0.08] text-[#A3ADBA] font-mono">
                 {tomorrowList.length}
               </span>
             )}
@@ -208,15 +205,15 @@ export const FollowUpsPage: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('UPCOMING')}
-            className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+            className={`px-4 py-2 rounded-xl font-medium transition cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === 'UPCOMING'
-                ? 'bg-[#61C9F6] text-slate-950 font-bold shadow-md shadow-[#61C9F6]/30'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-zinc-200 border border-white/5'
+                ? 'pill-sky font-semibold'
+                : 'apple-btn-secondary text-[#A3ADBA] hover:text-[#F5F7FA]'
             }`}
           >
             <span>Upcoming Days</span>
             {upcomingList.length > 0 && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-zinc-300 font-mono">
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/[0.08] text-[#A3ADBA] font-mono">
                 {upcomingList.length}
               </span>
             )}
@@ -224,15 +221,15 @@ export const FollowUpsPage: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('COMPLETED')}
-            className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+            className={`px-4 py-2 rounded-xl font-medium transition cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === 'COMPLETED'
-                ? 'bg-[#61C9F6] text-slate-950 font-bold shadow-md shadow-[#61C9F6]/30'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-zinc-200 border border-white/5'
+                ? 'pill-emerald font-semibold'
+                : 'apple-btn-secondary text-[#A3ADBA] hover:text-[#F5F7FA]'
             }`}
           >
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#34D399]" />
             <span>Completed</span>
-            <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/10 text-zinc-300 font-mono">
+            <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/[0.08] text-[#A3ADBA] font-mono">
               {completedList.length}
             </span>
           </button>
@@ -242,18 +239,18 @@ export const FollowUpsPage: React.FC = () => {
       {/* Follow-ups List */}
       <div className="space-y-3.5">
         {loading ? (
-          <div className="p-16 text-center space-y-3 rounded-3xl bg-[#0E0E18]/80 border border-white/10 shadow-2xl backdrop-blur-2xl">
-            <div className="w-10 h-10 rounded-full border-2 border-[#61C9F6]/20 border-t-[#61C9F6] animate-spin mx-auto" />
-            <p className="text-xs text-zinc-400 font-mono">Synchronizing scheduled checkpoints...</p>
+          <div className="p-16 text-center space-y-3 apple-panel">
+            <div className="w-8 h-8 rounded-full border-2 border-[#7DD3FC]/20 border-t-[#7DD3FC] animate-spin mx-auto" />
+            <p className="text-xs text-[#A3ADBA] font-mono">Synchronizing scheduled checkpoints...</p>
           </div>
         ) : filteredList.length === 0 ? (
-          <div className="p-16 rounded-3xl bg-[#0E0E18]/80 border border-white/10 text-center space-y-4 shadow-2xl backdrop-blur-2xl">
-            <div className="w-14 h-14 rounded-2xl bg-[#61C9F6]/10 text-[#61C9F6] flex items-center justify-center mx-auto border border-[#61C9F6]/20 shadow-[0_0_20px_rgba(97,201,246,0.15)]">
-              <CheckCircle2 className="w-7 h-7" />
+          <div className="p-16 apple-panel text-center space-y-4">
+            <div className="w-12 h-12 rounded-2xl glass-inner text-[#34D399] flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-sm font-bold text-white">No reminders in this queue</h3>
-              <p className="text-xs text-zinc-400 max-w-sm mx-auto">
+              <h3 className="text-sm font-semibold text-[#F5F7FA]">No reminders in this queue</h3>
+              <p className="text-xs text-[#A3ADBA] max-w-sm mx-auto">
                 {activeTab === 'OVERDUE'
                   ? 'All client communications are completely up to date! Outstanding work.'
                   : 'No scheduled follow-up alerts in this timeframe.'}
@@ -268,52 +265,50 @@ export const FollowUpsPage: React.FC = () => {
             return (
               <div
                 key={fu.id}
-                className={`relative rounded-3xl border p-5 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl backdrop-blur-2xl ${
+                className={`glass-card p-5 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                   isOverdue
-                    ? 'bg-rose-500/[0.06] border-rose-500/30 hover:border-rose-400/50'
+                    ? 'border-[#FB7185]/30 bg-[#FB7185]/[0.05]'
                     : isToday
-                    ? 'bg-[#61C9F6]/[0.06] border-[#61C9F6]/30 hover:border-[#61C9F6]/50'
-                    : 'bg-[#0E0E18]/80 border-white/10 hover:border-white/20'
+                    ? 'border-[#7DD3FC]/30 bg-[#7DD3FC]/[0.05]'
+                    : ''
                 }`}
               >
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
-
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <span
-                      className={`text-sm font-bold ${
+                      className={`text-sm font-semibold ${
                         isOverdue
-                          ? 'text-rose-300'
+                          ? 'text-[#FECDD3]'
                           : isToday
-                          ? 'text-[#61C9F6]'
-                          : 'text-white'
+                          ? 'text-[#BAE6FD]'
+                          : 'text-[#F5F7FA]'
                       }`}
                     >
                       {fu.customer_name}
                     </span>
 
-                    <span className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.05] text-zinc-300 border border-white/10">
+                    <span className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded-full glass-inner text-[#A3ADBA]">
                       {fu.assigned_staff_id || 'Staff'}
                     </span>
 
                     {isOverdue && (
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1 font-mono shadow-[0_0_10px_rgba(244,63,94,0.2)]">
-                        <AlertTriangle className="w-3 h-3 text-rose-400" /> Overdue
+                      <span className="pill-rose px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1 font-mono">
+                        <AlertTriangle className="w-3 h-3 text-[#FB7185]" /> Overdue
                       </span>
                     )}
 
                     {isToday && (
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#61C9F6]/20 text-sky-200 border border-[#61C9F6]/30 flex items-center gap-1 font-mono shadow-[0_0_10px_rgba(97,201,246,0.2)]">
-                        <Clock className="w-3 h-3 text-[#61C9F6]" /> Due Today
+                      <span className="pill-sky px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1 font-mono">
+                        <Clock className="w-3 h-3 text-[#7DD3FC]" /> Due Today
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs text-zinc-200 font-medium">{fu.reason}</p>
+                  <p className="text-xs text-[#F5F7FA] font-medium">{fu.reason}</p>
 
-                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-zinc-400 font-mono">
-                    <span className="flex items-center gap-1.5 text-zinc-300 font-semibold">
-                      <CalendarIcon className="w-3.5 h-3.5 text-[#61C9F6]" />
+                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#A3ADBA] font-mono">
+                    <span className="flex items-center gap-1.5 text-[#F5F7FA] font-medium">
+                      <CalendarIcon className="w-3.5 h-3.5 text-[#7DD3FC]" />
                       {new Date(fu.scheduled_at).toLocaleString([], {
                         year: 'numeric',
                         month: 'short',
@@ -323,7 +318,7 @@ export const FollowUpsPage: React.FC = () => {
                       })}
                     </span>
                     {fu.result_notes && (
-                      <span className="text-zinc-400 truncate max-w-md italic">
+                      <span className="text-[#A3ADBA] truncate max-w-md italic">
                         Outcome: "{fu.result_notes}"
                       </span>
                     )}
@@ -334,19 +329,19 @@ export const FollowUpsPage: React.FC = () => {
                   {fu.lead_id && (
                     <button
                       onClick={() => navigate(`/leads/${fu.lead_id}`)}
-                      className="px-3.5 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-zinc-300 text-xs font-semibold cursor-pointer transition flex items-center gap-1"
+                      className="apple-btn-secondary px-3.5 py-1.5 text-xs font-medium cursor-pointer flex items-center gap-1"
                     >
                       <span>Lead Profile</span>
-                      <ChevronRight className="w-3 h-3 text-zinc-400" />
+                      <ChevronRight className="w-3 h-3 text-[#A3ADBA]" />
                     </button>
                   )}
 
                   {fu.status === 'Pending' && (
                     <button
                       onClick={() => setCompletingFollowUp(fu)}
-                      className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#61C9F6] via-[#38BDF8] to-[#0284C7] hover:brightness-110 text-slate-950 text-xs font-bold shadow-md shadow-[#61C9F6]/30 cursor-pointer transition flex items-center gap-1.5"
+                      className="apple-btn-primary px-4 py-1.5 text-xs font-semibold cursor-pointer flex items-center gap-1.5"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-slate-950 stroke-[3]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#0A101D] stroke-[2.5]" />
                       <span>Complete & Log</span>
                     </button>
                   )}
@@ -355,9 +350,9 @@ export const FollowUpsPage: React.FC = () => {
                     <button
                       onClick={() => setDeletingFollowUp(fu)}
                       title="Delete Reminder (Admin Only)"
-                      className="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/25 transition cursor-pointer"
+                      className="p-2 rounded-xl pill-rose transition cursor-pointer"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-3.5 h-3.5 text-[#FB7185]" />
                     </button>
                   )}
                 </div>
