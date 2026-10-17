@@ -119,7 +119,18 @@ export const apiAuth = {
   async loginWithStaffId(staffIdRaw: string, password: string): Promise<StaffProfile> {
     const rawInput = staffIdRaw.trim();
     const isEmailInput = rawInput.includes('@');
-    const cleanStaffId = isEmailInput ? rawInput.split('@')[0].toUpperCase() : rawInput.toUpperCase();
+    let cleanStaffId = isEmailInput ? rawInput.split('@')[0].toUpperCase() : rawInput.toUpperCase();
+
+    // Flexible Staff ID normalization:
+    // e.g. "sales-1", "sales1", "sales 01" -> "SALES-001"
+    const salesMatch = cleanStaffId.match(/^SALES[-\s]?0*([1-9]\d*)$/i);
+    if (salesMatch) {
+      cleanStaffId = `SALES-${salesMatch[1].padStart(3, '0')}`;
+    }
+    const adminMatch = cleanStaffId.match(/^ADMIN[-\s]?0*([1-9]\d*)$/i);
+    if (adminMatch) {
+      cleanStaffId = `ADMIN-${adminMatch[1].padStart(3, '0')}`;
+    }
 
     if (isSupabaseConfigured() && supabase) {
       let registeredEmail: string | null = null;
@@ -131,6 +142,17 @@ export const apiAuth = {
           registeredEmail = emailData;
         }
       } catch {}
+
+      if (!registeredEmail) {
+        try {
+          const { data: emailData } = await supabase.rpc('get_staff_email_for_login', {
+            p_staff_id: rawInput,
+          });
+          if (emailData && typeof emailData === 'string') {
+            registeredEmail = emailData;
+          }
+        } catch {}
+      }
 
       if (!registeredEmail && !isEmailInput) {
         try {
@@ -148,7 +170,7 @@ export const apiAuth = {
       const emailCandidates = Array.from(
         new Set([
           ...(isEmailInput ? [rawInput.toLowerCase()] : []),
-          ...(registeredEmail ? [registeredEmail] : []),
+          ...(registeredEmail ? [registeredEmail.toLowerCase()] : []),
           `${cleanStaffId.toLowerCase()}.tinyplay@gmail.com`,
           `${cleanStaffId.toLowerCase()}@staff.tinyplaystudioz.internal`,
           `${cleanStaffId.toLowerCase()}@tinyplaystudioz.com`,
@@ -172,11 +194,16 @@ export const apiAuth = {
 
       if (!authUser) {
         const localMatch = staffList.find((s) => s.staff_id.toUpperCase() === cleanStaffId);
-        if (localMatch && localMatch.is_active) {
+        if (localMatch && localMatch.is_active && !isSupabaseConfigured()) {
           currentAuthStaff = localMatch;
           setStored('current_staff', localMatch);
           return localMatch;
         }
+
+        if (lastError?.message?.includes('Database error querying schema') || lastError?.message?.includes('schema')) {
+          throw new Error('Database Auth Schema Error: The auth token fields in Supabase require one-click repair. Please run fix_sales_password_and_login.sql in Supabase SQL Editor.');
+        }
+
         throw new Error(lastError?.message || 'Invalid Staff ID or Password.');
       }
 
@@ -527,20 +554,26 @@ export const apiStaff = {
     if (isSupabaseConfigured() && supabase) {
       // 1. Try RPC password change
       try {
+        let staffIdToUse = userId;
         const { data: staffRec } = await supabase
           .from('staff_profiles')
           .select('staff_id')
           .eq('id', userId)
-          .single();
+          .maybeSingle();
 
         if (staffRec?.staff_id) {
-          const { error: rpcErr } = await supabase.rpc('admin_change_staff_password', {
-            p_staff_id: staffRec.staff_id,
-            p_new_password: newPass,
-          });
-          if (!rpcErr) return;
+          staffIdToUse = staffRec.staff_id;
         }
-      } catch {}
+
+        const { error: rpcErr } = await supabase.rpc('admin_change_staff_password', {
+          p_staff_id: staffIdToUse,
+          p_new_password: newPass,
+        });
+        if (!rpcErr) return;
+        console.error('RPC admin_change_staff_password error:', rpcErr);
+      } catch (err) {
+        console.error('Error calling admin_change_staff_password:', err);
+      }
 
       // 2. Try Edge Function
       try {

@@ -9,18 +9,62 @@ import {
   ActivityLog,
 } from '@/types';
 
-// Production Initial Roster — Only Super Admin bootstrap entry
+// Production Initial Roster
 export const INITIAL_STAFF: StaffProfile[] = [
   {
     id: 'usr-admin-001',
     staff_id: 'ADMIN-001',
     full_name: 'Studio Super Admin',
-    email: 'admin-001.tinyplay@gmail.com',
+    email: 'officecrashout@gmail.com',
     role: 'SUPER_ADMIN',
+    is_active: true,
+    phone: '+8801910693101',
+    avatar_url: null,
+    created_at: '2026-10-01T00:00:00Z',
+  },
+  {
+    id: 'usr-sales-001',
+    staff_id: 'SALES-001',
+    full_name: 'Ramisa',
+    email: 'kneejhum0@gmail.com',
+    role: 'SALES',
     is_active: true,
     phone: null,
     avatar_url: null,
-    created_at: new Date().toISOString(),
+    created_at: '2026-10-01T00:00:00Z',
+  },
+  {
+    id: 'usr-sales-002',
+    staff_id: 'SALES-002',
+    full_name: 'Raida',
+    email: 'nasibaraida495@gmail.com',
+    role: 'SALES',
+    is_active: true,
+    phone: null,
+    avatar_url: null,
+    created_at: '2026-10-01T00:00:00Z',
+  },
+  {
+    id: 'usr-sales-003',
+    staff_id: 'SALES-003',
+    full_name: 'Esha',
+    email: 'aashmitaa00@gmail.com',
+    role: 'SALES',
+    is_active: true,
+    phone: null,
+    avatar_url: null,
+    created_at: '2026-10-01T00:00:00Z',
+  },
+  {
+    id: 'usr-sales-004',
+    staff_id: 'SALES-004',
+    full_name: 'Nishat',
+    email: 'jamlessmochi201@gmail.com',
+    role: 'SALES',
+    is_active: true,
+    phone: null,
+    avatar_url: null,
+    created_at: '2026-10-01T00:00:00Z',
   },
 ];
 
