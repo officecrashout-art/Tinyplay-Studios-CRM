@@ -144,7 +144,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 SELECT public._sync_peak_user('ADMIN-001', 'Admin', 'officecrashout@gmail.com', 'SUPER_ADMIN', 'TinyplayAdmin2026!', '+8801910693101');
 SELECT public._sync_peak_user('SALES-001', 'Ramisa', 'kneejhum0@gmail.com', 'SALES', 'TinyplaySales2026!');
 SELECT public._sync_peak_user('SALES-002', 'Raida', 'nasibaraida495@gmail.com', 'SALES', 'TinyplaySales2026!');
-SELECT public._sync_peak_user('SALES-003', 'Esha', 'sales-003@staff.tinyplaystudioz.internal', 'SALES', 'TinyplaySales2026!');
+SELECT public._sync_peak_user('SALES-003', 'Esha', 'aashmitaa00@gmail.com', 'SALES', 'TinyplaySales2026!');
 SELECT public._sync_peak_user('SALES-004', 'Nishat', 'jamlessmochi201@gmail.com', 'SALES', 'TinyplaySales2026!');
 
 -- Cleanup temporary helper function
